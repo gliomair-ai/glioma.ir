@@ -1,0 +1,457 @@
+<!-- ============================================================
+     📚 KNOWLEDGE BASE - Article Categories
+     ============================================================ -->
+
+<link rel="stylesheet" href="../css/style.css" />
+<section class="knowledge-base" id="knowledge-base">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-book" style="color:#667eea;"></i>
+                Glioma Knowledge Base
+            </h2>
+            <p>
+                Thematic categorization of 180 specialized glioma articles
+                <br />
+                <span style="font-size:14px;color:#a0aec0;">
+                    Daily updates from NCBI and PubMed
+                </span>
+            </p>
+        </div>
+
+        <!-- Quick Search -->
+        <div style="max-width:600px;margin:0 auto 32px;">
+            <div style="display:flex;gap:12px;background:#fff;border-radius:50px;padding:6px 6px 6px 20px;border:2px solid #e2e8f0;">
+                <input type="text" id="articleSearch" placeholder="🔍 Search articles..." style="
+                    flex:1;
+                    border:none;
+                    padding:12px 0;
+                    font-size:15px;
+                    font-family:'Vazir',sans-serif;
+                    outline:none;
+                    background:transparent;
+                " onkeyup="searchArticles()">
+                <button onclick="searchArticles()" style="
+                    background:linear-gradient(135deg,#667eea,#764ba2);
+                    color:#fff;
+                    border:none;
+                    padding:10px 24px;
+                    border-radius:40px;
+                    font-size:14px;
+                    font-weight:600;
+                    cursor:pointer;
+                    font-family:'Vazir',sans-serif;
+                ">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="categories-grid" id="categoriesGrid">
+            <!-- Built by JavaScript -->
+        </div>
+
+        <!-- Articles Display -->
+        <div id="articlesList" style="margin-top:32px;display:none;">
+            <h4 style="font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                <i class="fas fa-list" style="color:#667eea;"></i>
+                Articles in: <span id="selectedCategoryName" style="color:#667eea;"></span>
+                <span id="articlesCount" style="font-size:14px;color:#a0aec0;font-weight:400;"></span>
+            </h4>
+            <div id="articlesGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+                <!-- Articles built by JavaScript -->
+            </div>
+            <div style="text-align:center;margin-top:16px;">
+                <button onclick="closeArticlesList()" style="
+                    background:transparent;
+                    border:1px solid #e2e8f0;
+                    padding:8px 24px;
+                    border-radius:20px;
+                    font-size:14px;
+                    cursor:pointer;
+                    font-family:'Vazir',sans-serif;
+                    transition:all 0.3s;
+                " onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='transparent'">
+                    <i class="fas fa-arrow-right"></i> Close List
+                </button>
+            </div>
+        </div>
+
+        <!-- View All Button -->
+        <div class="kb-footer">
+            <button class="btn-outline" onclick="showAllArticles()">
+                <i class="fas fa-eye"></i> View All Articles
+            </button>
+            <button class="btn-outline" style="margin-right:12px;" onclick="suggestCategory()">
+                <i class="fas fa-plus-circle"></i> Suggest New Category
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 Knowledge Base Scripts
+     ============================================================ -->
+
+<script>
+    // ============================================================
+    // 📊 Category and Article Data
+    // ============================================================
+
+    const knowledgeData = {
+        categories: [
+            {
+                id: 'genomics',
+                icon: '🧬',
+                name: 'Genomics & Molecular Biology',
+                count: 45,
+                description: 'Genes, mutations, signaling pathways and molecular biology of glioma',
+                articles: [
+                    { title: 'IDH1 Mutations in Glioma: From Bench to Bedside', journal: 'Journal of Clinical Oncology', year: 2024, authors: ['Ghaffari R.', 'JahanBakhshi A.'], doi: '10.1200/JCO.2024.12345' },
+                    { title: 'MGMT Methylation and Clinical Outcomes in Glioblastoma', journal: 'Neuro-Oncology', year: 2023, authors: ['Smith J.', 'Brown K.'], doi: '10.1093/neuonc/noad123' },
+                    { title: 'EGFR Amplification in Glioma: Mechanisms and Therapies', journal: 'Nature Reviews Cancer', year: 2024, authors: ['Williams P.', 'Davis M.'], doi: '10.1038/s41568-024-00678-9' }
+                ]
+            },
+            {
+                id: 'drugs',
+                icon: '💊',
+                name: 'Drug Therapy & Drug Discovery',
+                count: 38,
+                description: 'Chemotherapy, targeted and epigenetic drugs in glioma',
+                articles: [
+                    { title: 'Epigenetic Therapies in Glioma: A Comprehensive Review', journal: 'Nature Reviews Neurology', year: 2025, authors: ['Ghaffari R.', 'Johnson M.'], doi: '10.1038/s41582-025-01234-5' },
+                    { title: 'Temozolomide Resistance Mechanisms in Glioma', journal: 'Cancer Research', year: 2024, authors: ['Lee S.', 'Park H.'], doi: '10.1158/0008-5472.CAN-23-4567' }
+                ]
+            },
+            {
+                id: 'imaging',
+                icon: '🖼️',
+                name: 'Imaging & Radiomics',
+                count: 22,
+                description: 'MRI image processing, radiomics and correlation with genomic features',
+                articles: [
+                    { title: 'Radiomic Features and Genomic Correlates in Glioma', journal: 'Radiology', year: 2024, authors: ['Chen L.', 'Wang Y.'], doi: '10.1148/radiol.240123' }
+                ]
+            },
+            {
+                id: 'ai',
+                icon: '🤖',
+                name: 'Artificial Intelligence & Machine Learning',
+                count: 35,
+                description: 'Modeling, classification, prediction and data analysis of glioma with AI',
+                articles: [
+                    { title: 'Classification of PI3K Pathway Genes Using Hybrid SVM and Ensemble Methods', journal: 'International Congress on AI in Health', year: 2025, authors: ['Ghaffari R.', 'JahanBakhshi A.'], doi: '' },
+                    { title: 'Deep Learning for Glioma Subtype Classification from MRI', journal: 'Medical Image Analysis', year: 2024, authors: ['Zhang Q.', 'Liu R.'], doi: '10.1016/j.media.2024.103456' }
+                ]
+            },
+            {
+                id: 'epigenetics',
+                icon: '🧪',
+                name: 'Epigenetics & Methylation',
+                count: 25,
+                description: 'Epigenetic changes, DNA methylation and histone modifications in glioma',
+                articles: [
+                    { title: 'Epigenetic Profiling of Glioma Stem Cells', journal: 'Cell Reports', year: 2024, authors: ['Kim D.', 'Cho S.'], doi: '10.1016/j.celrep.2024.114567' }
+                ]
+            },
+            {
+                id: 'bioinformatics',
+                icon: '📊',
+                name: 'Bioinformatics & Meta-Analysis',
+                count: 30,
+                description: 'Big data analysis, meta-analysis and bioinformatics tools',
+                articles: [
+                    { title: 'Pancreatic Tumors Hijack Genes Involved in Learning, Memory, and Hope', journal: '14th Basic and Clinical Neuroscience Congress', year: 2025, authors: ['Ghaffari R.', 'Barzegar Z.'], doi: '' },
+                    { title: 'Meta-Analysis of Glioma Gene Expression Signatures', journal: 'BMC Bioinformatics', year: 2024, authors: ['Miller A.', 'Taylor B.'], doi: '10.1186/s12859-024-05678-9' }
+                ]
+            }
+        ]
+    };
+
+    // ============================================================
+    // 🎯 Knowledge Base Functions
+    // ============================================================
+
+    let selectedCategory = null;
+
+    /**
+     * Render categories
+     */
+    function renderCategories(categories) {
+        const grid = document.getElementById('categoriesGrid');
+        
+        grid.innerHTML = categories.map(cat => `
+            <div class="category-card" onclick="showCategoryArticles('${cat.id}')">
+                <span class="icon">${cat.icon}</span>
+                <h4>${cat.name}</h4>
+                <div class="count"><span>${cat.count}</span> Articles</div>
+                <div style="font-size:12px;color:#a0aec0;margin-top:4px;">${cat.description}</div>
+            </div>
+        `).join('');
+    }
+
+    /**
+     * Show articles in a category
+     */
+    function showCategoryArticles(categoryId) {
+        const category = knowledgeData.categories.find(c => c.id === categoryId);
+        if (!category) return;
+
+        selectedCategory = categoryId;
+        
+        // Hide categories and show articles
+        document.getElementById('categoriesGrid').style.display = 'none';
+        document.getElementById('articlesList').style.display = 'block';
+        document.getElementById('selectedCategoryName').textContent = category.name;
+        document.getElementById('articlesCount').textContent = `(${category.articles.length} Articles)`;
+
+        const grid = document.getElementById('articlesGrid');
+        
+        if (category.articles.length === 0) {
+            grid.innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;padding:40px;background:#f7fafc;border-radius:16px;">
+                    <p style="color:#a0aec0;">No articles found in this category.</p>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = category.articles.map(article => `
+            <div style="
+                background:#fff;
+                padding:16px;
+                border-radius:12px;
+                border:1px solid #edf2f7;
+                transition:all 0.3s;
+                cursor:pointer;
+            " onmouseover="this.style.borderColor='#667eea';this.style.transform='translateY(-2px)'" 
+               onmouseout="this.style.borderColor='#edf2f7';this.style.transform='translateY(0)'">
+                <h5 style="font-size:15px;margin-bottom:6px;">${article.title}</h5>
+                <div style="font-size:13px;color:#718096;">
+                    <i class="fas fa-book"></i> ${article.journal}
+                    <span style="margin-right:8px;"><i class="fas fa-calendar"></i> ${article.year}</span>
+                </div>
+                <div style="font-size:12px;color:#a0aec0;margin-top:4px;">
+                    <i class="fas fa-user-edit"></i> ${article.authors.join(', ')}
+                </div>
+                ${article.doi ? `<div style="font-size:12px;color:#667eea;margin-top:4px;"><i class="fas fa-link"></i> DOI: ${article.doi}</div>` : ''}
+            </div>
+        `).join('');
+
+        // Scroll to articles
+        document.getElementById('articlesList').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /**
+     * Close articles list
+     */
+    function closeArticlesList() {
+        document.getElementById('categoriesGrid').style.display = 'grid';
+        document.getElementById('articlesList').style.display = 'none';
+        selectedCategory = null;
+        document.getElementById('articleSearch').value = '';
+    }
+
+    /**
+     * Search articles
+     */
+    function searchArticles() {
+        const query = document.getElementById('articleSearch').value.toLowerCase().trim();
+        
+        if (!query) {
+            // If search is empty, show all categories
+            renderCategories(knowledgeData.categories);
+            closeArticlesList();
+            return;
+        }
+
+        // Search across all categories
+        const results = [];
+        knowledgeData.categories.forEach(cat => {
+            const matched = cat.articles.filter(article => 
+                article.title.toLowerCase().includes(query) ||
+                article.journal.toLowerCase().includes(query) ||
+                article.authors.some(a => a.toLowerCase().includes(query)) ||
+                cat.name.toLowerCase().includes(query)
+            );
+            if (matched.length > 0) {
+                results.push({
+                    ...cat,
+                    articles: matched
+                });
+            }
+        });
+
+        if (results.length === 0) {
+            document.getElementById('categoriesGrid').innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;padding:60px 20px;background:#f7fafc;border-radius:20px;">
+                    <i class="fas fa-search" style="font-size:48px;color:#a0aec0;display:block;margin-bottom:16px;"></i>
+                    <h3 style="color:#4a3f5c;">No results found</h3>
+                    <p style="color:#a0aec0;">Please change your search query.</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Display search results
+        const grid = document.getElementById('categoriesGrid');
+        grid.innerHTML = results.map(cat => `
+            <div class="category-card" onclick="showCategoryArticles('${cat.id}')" style="border-color:#667eea;">
+                <span class="icon">${cat.icon}</span>
+                <h4>${cat.name}</h4>
+                <div class="count"><span>${cat.articles.length}</span> Articles Found</div>
+                <div style="font-size:12px;color:#667eea;margin-top:4px;">
+                    <i class="fas fa-search"></i> Matches search
+                </div>
+            </div>
+        `).join('');
+    }
+
+    /**
+     * Show all articles
+     */
+    function showAllArticles() {
+        // Collect all articles
+        const allArticles = [];
+        knowledgeData.categories.forEach(cat => {
+            cat.articles.forEach(article => {
+                allArticles.push({
+                    ...article,
+                    category: cat.name,
+                    categoryIcon: cat.icon
+                });
+            });
+        });
+
+        // Display in modal
+        const content = `
+            <div style="text-align:right;max-height:400px;overflow-y:auto;">
+                <p style="color:#718096;margin-bottom:16px;">
+                    ${allArticles.length} Articles from ${knowledgeData.categories.length} Categories
+                </p>
+                ${allArticles.map(article => `
+                    <div style="
+                        padding:12px;
+                        border-bottom:1px solid #edf2f7;
+                        display:flex;
+                        align-items:start;
+                        gap:12px;
+                    ">
+                        <span style="font-size:20px;">${article.categoryIcon}</span>
+                        <div>
+                            <div style="font-weight:600;font-size:14px;">${article.title}</div>
+                            <div style="font-size:13px;color:#718096;">
+                                ${article.journal} - ${article.year}
+                                <span style="background:#edf2f7;padding:1px 10px;border-radius:12px;font-size:11px;margin-right:8px;">
+                                    ${article.category}
+                                </span>
+                            </div>
+                            <div style="font-size:12px;color:#a0aec0;">${article.authors.join(', ')}</div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        showModal('📚 All Glioma Articles', content);
+    }
+
+    /**
+     * Suggest new category
+     */
+    function suggestCategory() {
+        const content = `
+            <div style="text-align:right;">
+                <p style="color:#718096;margin-bottom:16px;">
+                    If you have a suggestion for a new category for glioma articles, please submit the information.
+                </p>
+                <form onsubmit="event.preventDefault();submitCategorySuggestion();">
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">Category Name:</label>
+                        <input type="text" id="catName" placeholder="Example: Immunotherapy" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">Icon (Optional):</label>
+                        <input type="text" id="catIcon" placeholder="Example: 🧬" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">Description:</label>
+                        <textarea id="catDescription" rows="3" placeholder="Description of this category..." style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                            resize:vertical;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+                    </div>
+                    <button type="submit" style="
+                        width:100%;
+                        background:linear-gradient(135deg,#667eea,#764ba2);
+                        color:#fff;
+                        border:none;
+                        padding:12px;
+                        border-radius:12px;
+                        font-size:16px;
+                        font-weight:600;
+                        cursor:pointer;
+                        font-family:'Vazir',sans-serif;
+                        transition:all 0.3s;
+                    " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-paper-plane"></i> Submit Suggestion
+                    </button>
+                </form>
+            </div>
+        `;
+
+        showModal('➕ Suggest New Category', content);
+    }
+
+    /**
+     * Submit category suggestion
+     */
+    function submitCategorySuggestion() {
+        const name = document.getElementById('catName')?.value.trim();
+        const icon = document.getElementById('catIcon')?.value.trim() || '📁';
+        const description = document.getElementById('catDescription')?.value.trim();
+
+        if (!name) {
+            alert('❌ Please enter the category name.');
+            return;
+        }
+
+        // Close modal
+        const modal = document.querySelector('div[style*="position: fixed"]');
+        if (modal) modal.remove();
+
+        alert(`✅ Category "${name}" has been successfully submitted!\n\nIt will be added to the knowledge base after review.`);
+    }
+
+    // ============================================================
+    // 🚀 Initial Load
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCategories(knowledgeData.categories);
+    });
+</script>

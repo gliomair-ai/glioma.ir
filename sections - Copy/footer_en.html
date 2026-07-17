@@ -1,0 +1,204 @@
+<!-- ============================================================
+     📌 FOOTER - Website Footer
+     ============================================================ -->
+
+<link rel="stylesheet" href="../css/style.css" />
+<footer class="footer">
+    <div class="container">
+        <!-- Brand -->
+        <div class="footer-brand">
+            <h3>
+                <i class="fas fa-brain" style="color:#667eea;"></i>
+                Glioma<span style="color:#667eea;">Hub</span>
+            </h3>
+            <p style="font-size:14px;margin-top:8px;max-width:280px;">
+                Comprehensive AI Platform for Glioma Research and Treatment
+            </p>
+            <div style="display:flex;gap:12px;margin-top:12px;">
+                <a href="#" style="color:#a0aec0;transition:color 0.3s;" onmouseover="this.style.color='#667eea'" onmouseout="this.style.color='#a0aec0'">
+                    <i class="fab fa-linkedin" style="font-size:20px;"></i>
+                </a>
+                <a href="#" style="color:#a0aec0;transition:color 0.3s;" onmouseover="this.style.color='#667eea'" onmouseout="this.style.color='#a0aec0'">
+                    <i class="fab fa-github" style="font-size:20px;"></i>
+                </a>
+                <a href="#" style="color:#a0aec0;transition:color 0.3s;" onmouseover="this.style.color='#667eea'" onmouseout="this.style.color='#a0aec0'">
+                    <i class="fab fa-twitter" style="font-size:20px;"></i>
+                </a>
+                <a href="#" style="color:#a0aec0;transition:color 0.3s;" onmouseover="this.style.color='#667eea'" onmouseout="this.style.color='#a0aec0'">
+                    <i class="fab fa-researchgate" style="font-size:20px;"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Links -->
+        <div class="footer-links">
+            <div>
+                <h4 style="color:#fff;font-size:15px;margin-bottom:8px;">Quick Access</h4>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    <a href="#"><i class="fas fa-robot"></i> AI Assistant</a>
+                    <a href="#"><i class="fas fa-book"></i> Articles</a>
+                    <a href="#"><i class="fas fa-hospital"></i> Centers</a>
+                    <a href="#"><i class="fas fa-tools"></i> Tools</a>
+                </div>
+            </div>
+            <div>
+                <h4 style="color:#fff;font-size:15px;margin-bottom:8px;">About Us</h4>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    <a href="#" onclick="showAboutUs();return false;">Research Team</a>
+                    <a href="#" onclick="showCollaboration();return false;">Collaboration</a>
+                    <a href="#" onclick="showContact();return false;">Contact Us</a>
+                    <a href="#" onclick="showFAQ();return false;">FAQ</a>
+                </div>
+            </div>
+            <div>
+                <h4 style="color:#fff;font-size:15px;margin-bottom:8px;">Support</h4>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                    <a href="mailto:ghaffari.r@iums.ac.ir">
+                        <i class="fas fa-envelope"></i> ghaffari.r@iums.ac.ir
+                    </a>
+                    <a href="tel:+989126004960">
+                        <i class="fas fa-phone"></i> +98 912 600 4960
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-telegram"></i> @GliomaHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="container">
+        <div class="footer-copy">
+            <p>
+                © 2026 GliomaHub
+                <span style="color:#667eea;">|</span>
+                All Rights Reserved
+                <span style="color:#667eea;">|</span>
+                <span style="font-size:12px;opacity:0.6;">
+                    <i class="fas fa-code"></i> Developed with ❤️ by GliomaHub Team
+                </span>
+            </p>
+            <p style="font-size:12px;opacity:0.4;margin-top:4px;">
+                Version 2.0.1 | Last Updated: 2026-07-26
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================================
+     🎯 Footer Scripts
+     ============================================================ -->
+
+<script>
+    // ============================================================
+    // 📌 Footer Functions
+    // ============================================================
+
+    function showAboutUs() {
+        showModal('🧠 About Us', `
+            <div style="text-align:right;">
+                <p style="color:#718096;line-height:1.8;">
+                    <strong>GliomaHub</strong> is a comprehensive AI platform for glioma research and treatment.
+                    This platform was created by a team of researchers and AI specialists at Iran University of Medical Sciences.
+                </p>
+                <div style="margin-top:16px;background:#f7fafc;padding:16px;border-radius:12px;">
+                    <h4 style="font-size:15px;">🎯 Our Goals:</h4>
+                    <ul style="list-style:none;padding:0;margin-top:8px;">
+                        <li style="padding:4px 0;">✅ Integrating glioma knowledge from authoritative sources</li>
+                        <li style="padding:4px 0;">✅ Developing specialized language models for accurate responses</li>
+                        <li style="padding:4px 0;">✅ Facilitating international collaboration among researchers</li>
+                        <li style="padding:4px 0;">✅ Providing advanced analytical tools for researchers</li>
+                    </ul>
+                </div>
+                <div style="margin-top:12px;font-size:13px;color:#a0aec0;">
+                    <i class="fas fa-users"></i> Team: Dr. Reza Ghaffari and colleagues
+                </div>
+            </div>
+        `);
+    }
+
+    function showCollaboration() {
+        showModal('🤝 Collaboration', `
+            <div style="text-align:right;">
+                <p style="color:#718096;line-height:1.8;">
+                    We welcome collaboration with researchers, physicians, and specialists in the field of glioma.
+                </p>
+                <div style="margin:16px 0;background:#f7fafc;padding:16px;border-radius:12px;">
+                    <h4 style="font-size:15px;">📋 Collaboration Areas:</h4>
+                    <ul style="list-style:none;padding:0;margin-top:8px;">
+                        <li style="padding:4px 0;">🔬 Genomic and transcriptomic data analysis</li>
+                        <li style="padding:4px 0;">🤖 AI model development</li>
+                        <li style="padding:4px 0;">📝 Review and research article writing</li>
+                        <li style="padding:4px 0;">🌍 International collaboration with cancer centers</li>
+                    </ul>
+                </div>
+                <p style="font-size:14px;">
+                    <i class="fas fa-envelope" style="color:#667eea;"></i>
+                    Contact us for collaboration:
+                    <strong>ghaffari.r@iums.ac.ir</strong>
+                </p>
+            </div>
+        `);
+    }
+
+    function showContact() {
+        showModal('📞 Contact Us', `
+            <div style="text-align:right;">
+                <div style="background:#f7fafc;padding:16px;border-radius:12px;margin-bottom:16px;">
+                    <p style="margin:4px 0;">
+                        <i class="fas fa-user" style="color:#667eea;width:24px;"></i>
+                        <strong>Dr. Reza Ghaffari</strong>
+                    </p>
+                    <p style="margin:4px 0;">
+                        <i class="fas fa-envelope" style="color:#667eea;width:24px;"></i>
+                        ghaffari.r@iums.ac.ir
+                    </p>
+                    <p style="margin:4px 0;">
+                        <i class="fas fa-phone" style="color:#667eea;width:24px;"></i>
+                        +98 912 600 4960
+                    </p>
+                    <p style="margin:4px 0;">
+                        <i class="fab fa-linkedin" style="color:#667eea;width:24px;"></i>
+                        linkedin.com/in/rezaghaffari-AI
+                    </p>
+                </div>
+                <p style="font-size:13px;color:#a0aec0;">
+                    <i class="fas fa-clock"></i>
+                    Response Hours: Sunday to Wednesday - 9:00 AM to 5:00 PM
+                </p>
+            </div>
+        `);
+    }
+
+    function showFAQ() {
+        showModal('❓ FAQ', `
+            <div style="text-align:right;">
+                <div style="margin-bottom:16px;">
+                    <h4 style="font-size:15px;color:#667eea;">🔹 How does the GliomaHub language model work?</h4>
+                    <p style="color:#718096;font-size:14px;margin-top:4px;">
+                        Our language model is trained on 180 specialized glioma articles. Each response displays the source and the name of the contributing researcher.
+                    </p>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <h4 style="font-size:15px;color:#667eea;">🔹 How can I submit a new article?</h4>
+                    <p style="color:#718096;font-size:14px;margin-top:4px;">
+                        You can submit your new article or study through the "Research Contributions" section. After review, it will be added to the language model.
+                    </p>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <h4 style="font-size:15px;color:#667eea;">🔹 How can I access the analytical tools?</h4>
+                    <p style="color:#718096;font-size:14px;margin-top:4px;">
+                        All analytical tools are free for registered users. To access them, use the "Login" button.
+                    </p>
+                </div>
+                <div>
+                    <h4 style="font-size:15px;color:#667eea;">🔹 How can I collaborate with the team?</h4>
+                    <p style="color:#718096;font-size:14px;margin-top:4px;">
+                        You can submit your request through the "Collaboration" section. Our team will contact you as soon as possible.
+                    </p>
+                </div>
+            </div>
+        `);
+    }
+</script>

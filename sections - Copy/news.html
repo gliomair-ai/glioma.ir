@@ -1,0 +1,350 @@
+<!-- ============================================================
+     📰 NEWS - اخبار و رویدادها
+     ============================================================ -->
+
+<link rel="stylesheet" href="../css/style.css" />
+<section class="news" id="news">
+    <div class="container">
+        <!-- هدر بخش -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-newspaper" style="color:#667eea;"></i>
+                اخبار و رویدادهای گلیوما
+            </h2>
+            <p>
+                آخرین تحولات، کنگره‌ها و دستاوردهای پژوهشی در حوزه گلیوما
+                <br />
+                <span style="font-size:14px;color:#a0aec0;">
+                    پایش خودکار از NCBI و PubMed
+                </span>
+            </p>
+        </div>
+
+        <!-- لیست اخبار -->
+        <div class="news-grid" id="newsGrid">
+            <!-- توسط JavaScript ساخته می‌شود -->
+        </div>
+
+        <!-- دکمه مشاهده همه -->
+        <div style="text-align:center;margin-top:32px;">
+            <button class="btn-outline" onclick="showAllNews()">
+                <i class="fas fa-eye"></i> مشاهده همه اخبار
+            </button>
+            <button class="btn-outline" style="margin-right:12px;" onclick="suggestNews()">
+                <i class="fas fa-plus-circle"></i> ارسال خبر جدید
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 اسکریپت‌های مربوط به اخبار
+     ============================================================ -->
+
+<script>
+    // ============================================================
+    // 📊 داده‌های اخبار
+    // ============================================================
+
+    const newsData = [
+        {
+            id: 1,
+            type: 'کنگره',
+            badge: 'رویداد',
+            badgeColor: '#667eea',
+            title: 'کنگره بین‌المللی هوش مصنوعی در سلامت',
+            description: 'با حضور برترین پژوهشگران حوزه هوش مصنوعی و پزشکی، تخصصی‌ترین رویداد سال در حوزه AI و گلیوما.',
+            date: '۱۴۰۵/۰۱/۰۳',
+            link: '#',
+            source: 'دانشگاه علوم پزشکی ایران'
+        },
+        {
+            id: 2,
+            type: 'پژوهش',
+            badge: 'کشف جدید',
+            badgeColor: '#48bb78',
+            title: 'نقش اپی‌ژنتیک در مقاومت به درمان گلیوما',
+            description: 'پژوهشگران دانشگاه علوم پزشکی تهران نقش جدیدی از تغییرات اپی‌ژنتیک در مقاومت به تموزولوماید کشف کردند.',
+            date: '۱۴۰۵/۰۴/۲۴',
+            link: '#',
+            source: 'Nature Reviews Neurology'
+        },
+        {
+            id: 3,
+            type: 'کارآزمایی',
+            badge: 'بالینی',
+            badgeColor: '#ed8936',
+            title: 'کارآزمایی فاز ۳ داروی جدید گلیوما',
+            description: 'داروی جدید مهارکننده PARP با نتایج امیدوارکننده در کارآزمایی فاز ۳، امید تازه‌ای برای بیماران گلیوبلاستوما.',
+            date: '۱۴۰۵/۰۴/۲۰',
+            link: '#',
+            source: 'Lancet Oncology'
+        },
+        {
+            id: 4,
+            type: 'همایش',
+            badge: 'وبینار',
+            badgeColor: '#9f7aea',
+            title: 'وبینار تخصصی: از ژنوم تا درمان گلیوما',
+            description: 'وبینار رایگان با حضور دکتر رضا قفاری و تیم پژوهشی، بررسی آخرین دستاوردهای درمانی و ژنومیک گلیوما.',
+            date: '۱۴۰۵/۰۴/۲۸',
+            link: '#',
+            source: 'GliomaHub'
+        },
+        {
+            id: 5,
+            type: 'مقاله',
+            badge: 'مقاله جدید',
+            badgeColor: '#4299e1',
+            title: 'طبقه‌بندی مسیر PI3K در گلیوبلاستوما با SVM',
+            description: 'مقاله جدیدی در کنگره بین‌المللی هوش مصنوعی در سلامت ارائه شد که به طبقه‌بندی ژن‌های مسیر PI3K می‌پردازد.',
+            date: '۱۴۰۵/۰۴/۱۸',
+            link: '#',
+            source: 'International Congress on AI in Health'
+        },
+        {
+            id: 6,
+            type: 'جایزه',
+            badge: 'افتخار',
+            badgeColor: '#f6ad55',
+            title: 'دریافت جایزه بهترین پژوهشگر جوان گلیوما',
+            description: 'دکتر رضا قفاری به دلیل پژوهش‌های نوآورانه در حوزه گلیوما و هوش مصنوعی، موفق به دریافت جایزه شد.',
+            date: '۱۴۰۵/۰۴/۱۵',
+            link: '#',
+            source: 'انجمن نوروانکولوژی ایران'
+        }
+    ];
+
+    // ============================================================
+    // 🎯 توابع مربوط به اخبار
+    // ============================================================
+
+    /**
+     * رندر کردن اخبار
+     */
+    function renderNews(news) {
+        const grid = document.getElementById('newsGrid');
+        
+        if (!news || news.length === 0) {
+            grid.innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;padding:60px 20px;background:#f7fafc;border-radius:20px;">
+                    <i class="fas fa-inbox" style="font-size:48px;color:#a0aec0;display:block;margin-bottom:16px;"></i>
+                    <h3 style="color:#4a3f5c;">هیچ خبری یافت نشد</h3>
+                    <p style="color:#a0aec0;">لطفاً بعداً مراجعه کنید.</p>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = news.map(item => `
+            <div class="news-card" onclick="showNewsDetail(${item.id})">
+                <span class="badge" style="background:${item.badgeColor};">${item.badge}</span>
+                <h4>${item.title}</h4>
+                <p style="margin-top:4px;">${item.description}</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:13px;color:#a0aec0;">
+                    <span><i class="fas fa-calendar-alt"></i> ${item.date}</span>
+                    <span><i class="fas fa-building"></i> ${item.source}</span>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:8px;">
+                    <span style="background:#edf2f7;padding:2px 12px;border-radius:12px;font-size:12px;color:#4a3f5c;">
+                        <i class="fas fa-tag"></i> ${item.type}
+                    </span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    /**
+     * نمایش جزئیات یک خبر
+     */
+    function showNewsDetail(id) {
+        const item = newsData.find(n => n.id === id);
+        if (!item) return;
+
+        const content = `
+            <div style="text-align:right;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <span style="background:${item.badgeColor};color:#fff;padding:4px 16px;border-radius:20px;font-size:14px;">
+                        ${item.badge}
+                    </span>
+                    <span style="color:#a0aec0;font-size:14px;">
+                        <i class="fas fa-calendar-alt"></i> ${item.date}
+                    </span>
+                </div>
+                
+                <h3 style="font-size:20px;margin-bottom:12px;">${item.title}</h3>
+                
+                <div style="background:#f7fafc;padding:16px;border-radius:12px;margin-bottom:16px;">
+                    <p style="color:#4a3f5c;line-height:1.8;">${item.description}</p>
+                </div>
+                
+                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:14px;color:#4a3f5c;">
+                        <i class="fas fa-building"></i> ${item.source}
+                    </span>
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:14px;color:#4a3f5c;">
+                        <i class="fas fa-tag"></i> ${item.type}
+                    </span>
+                </div>
+                
+                <a href="${item.link}" target="_blank" style="
+                    display:inline-block;
+                    background:linear-gradient(135deg,#667eea,#764ba2);
+                    color:#fff;
+                    padding:10px 32px;
+                    border-radius:30px;
+                    text-decoration:none;
+                    font-weight:600;
+                ">
+                    <i class="fas fa-external-link-alt"></i> مطالعه بیشتر
+                </a>
+            </div>
+        `;
+
+        showModal(`📰 ${item.badge}`, content);
+    }
+
+    /**
+     * نمایش همه اخبار
+     */
+    function showAllNews() {
+        const content = `
+            <div style="text-align:right;max-height:400px;overflow-y:auto;">
+                ${newsData.map(item => `
+                    <div style="
+                        padding:12px;
+                        border-bottom:1px solid #edf2f7;
+                        cursor:pointer;
+                        transition:all 0.3s;
+                    " onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='transparent'"
+                       onclick="showNewsDetail(${item.id});document.querySelector('div[style*=\\'position: fixed\\']')?.remove();">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="font-weight:600;font-size:14px;">${item.title}</span>
+                            <span style="background:${item.badgeColor};color:#fff;padding:2px 12px;border-radius:12px;font-size:11px;">
+                                ${item.badge}
+                            </span>
+                        </div>
+                        <div style="font-size:13px;color:#718096;margin-top:4px;">
+                            ${item.date} - ${item.source}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        showModal('📰 همه اخبار و رویدادها', content);
+    }
+
+    /**
+     * ارسال خبر جدید
+     */
+    function suggestNews() {
+        const content = `
+            <div style="text-align:right;">
+                <p style="color:#718096;margin-bottom:16px;">
+                    اگر خبر یا رویدادی در حوزه گلیوما می‌شناسید، لطفاً آن را با ما به اشتراک بگذارید.
+                </p>
+                <form onsubmit="event.preventDefault();submitNewsSuggestion();">
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">عنوان خبر:</label>
+                        <input type="text" id="newsTitle" placeholder="عنوان را وارد کنید" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">توضیحات:</label>
+                        <textarea id="newsDescription" rows="3" placeholder="توضیحات کامل خبر..." style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                            resize:vertical;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">منبع:</label>
+                        <input type="text" id="newsSource" placeholder="نام منبع خبر" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <button type="submit" style="
+                        width:100%;
+                        background:linear-gradient(135deg,#667eea,#764ba2);
+                        color:#fff;
+                        border:none;
+                        padding:12px;
+                        border-radius:12px;
+                        font-size:16px;
+                        font-weight:600;
+                        cursor:pointer;
+                        font-family:'Vazir',sans-serif;
+                        transition:all 0.3s;
+                    " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-paper-plane"></i> ارسال خبر
+                    </button>
+                </form>
+            </div>
+        `;
+
+        showModal('📰 ارسال خبر جدید', content);
+    }
+
+    /**
+     * ارسال خبر جدید (شبیه‌سازی)
+     */
+    function submitNewsSuggestion() {
+        const title = document.getElementById('newsTitle')?.value.trim();
+        const description = document.getElementById('newsDescription')?.value.trim();
+        const source = document.getElementById('newsSource')?.value.trim();
+
+        if (!title) {
+            alert('❌ لطفاً عنوان خبر را وارد کنید.');
+            return;
+        }
+
+        // بستن مودال
+        const modal = document.querySelector('div[style*="position: fixed"]');
+        if (modal) modal.remove();
+
+        // افزودن به لیست
+        const newNews = {
+            id: newsData.length + 1,
+            type: 'پیشنهاد کاربر',
+            badge: 'جدید',
+            badgeColor: '#667eea',
+            title: title,
+            description: description || 'بدون توضیحات',
+            date: new Date().toLocaleDateString('fa-IR'),
+            link: '#',
+            source: source || 'کاربر GliomaHub'
+        };
+
+        newsData.unshift(newNews);
+        renderNews(newsData);
+
+        alert(`✅ خبر "${title}" با موفقیت ارسال شد!\n\nپس از بررسی، در صفحه اخبار نمایش داده خواهد شد.`);
+    }
+
+    // ============================================================
+    // 🚀 بارگذاری اولیه
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderNews(newsData);
+    });
+</script>

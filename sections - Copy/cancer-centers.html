@@ -1,0 +1,460 @@
+<!-- ============================================================
+     🏥 CANCER CENTERS - مراکز سرطان جهان
+     ============================================================ -->
+
+<link rel="stylesheet" href="../css/style.css" />
+<section class="cancer-centers" id="cancer-centers">
+    <div class="container">
+        <!-- هدر بخش -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-hospital" style="color:#667eea;"></i>
+                مراکز سرطان جهان
+            </h2>
+            <p>
+                دایرکتوری بیش از ۳۰۰ مرکز معتبر سرطان در سراسر جهان
+                <br />
+                <span style="font-size:14px;color:#a0aec0;">
+                    آخرین به‌روزرسانی: <span id="centersUpdateDate">۱۴۰۵/۰۴/۲۶</span>
+                </span>
+            </p>
+        </div>
+
+        <!-- جستجو و فیلتر -->
+        <div class="centers-search">
+            <input 
+                type="text" 
+                id="centersSearch" 
+                placeholder="🔍 جستجوی مرکز بر اساس نام، کشور یا تخصص..."
+                onkeyup="filterCenters()"
+            />
+            <select id="centersFilter" onchange="filterCenters()">
+                <option value="all">🌍 همه کشورها</option>
+                <option value="usa">🇺🇸 آمریکا</option>
+                <option value="uk">🇬🇧 انگلستان</option>
+                <option value="germany">🇩🇪 آلمان</option>
+                <option value="france">🇫🇷 فرانسه</option>
+                <option value="canada">🇨🇦 کانادا</option>
+                <option value="japan">🇯🇵 ژاپن</option>
+                <option value="australia">🇦🇺 استرالیا</option>
+                <option value="other">🌏 سایر کشورها</option>
+            </select>
+            <button onclick="filterCenters()">
+                <i class="fas fa-search"></i> جستجو
+            </button>
+        </div>
+
+        <!-- آمار مراکز -->
+        <div style="text-align:center;margin-bottom:24px;">
+            <span style="background:#edf2f7;padding:6px 20px;border-radius:20px;font-size:14px;color:#4a3f5c;">
+                <i class="fas fa-building"></i>
+                <span id="centersCount">۳۰۲</span> مرکز فعال
+            </span>
+            <span style="background:#edf2f7;padding:6px 20px;border-radius:20px;font-size:14px;color:#4a3f5c;margin-right:8px;">
+                <i class="fas fa-flask"></i>
+                <span id="trialsCount">۱,۲۴۷</span> کارآزمایی بالینی
+            </span>
+        </div>
+
+        <!-- لیست مراکز -->
+        <div class="centers-grid" id="centersGrid">
+            <!-- مراکز توسط JavaScript ساخته می‌شوند -->
+        </div>
+
+        <!-- دکمه مشاهده همه -->
+        <div class="kb-footer">
+            <button class="btn-outline" onclick="showAllCenters()">
+                <i class="fas fa-globe"></i> مشاهده همه ۳۰۰+ مرکز
+            </button>
+            <button class="btn-outline" style="margin-right:12px;" onclick="suggestCenter()">
+                <i class="fas fa-plus-circle"></i> پیشنهاد مرکز جدید
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 اسکریپت‌های مربوط به مراکز سرطان
+     ============================================================ -->
+
+<script>
+    // ============================================================
+    // 📊 داده‌های مراکز سرطان (نمونه)
+    // ============================================================
+
+    const centersData = [
+        {
+            id: 1,
+            name: "MD Anderson Cancer Center",
+            country: "usa",
+            flag: "🇺🇸",
+            city: "Houston, Texas",
+            specialties: ["گلیوما", "تومورهای مغزی", "پزشکی دقیق", "ایمونوتراپی"],
+            website: "https://www.mdanderson.org",
+            activeTrials: 12,
+            rank: 1,
+            description: "یکی از بزرگترین و معتبرترین مراکز سرطان جهان با تخصص ویژه در تومورهای مغزی"
+        },
+        {
+            id: 2,
+            name: "Memorial Sloan Kettering Cancer Center",
+            country: "usa",
+            flag: "🇺🇸",
+            city: "New York",
+            specialties: ["نوروانکولوژی", "ایمونوتراپی", "ژنومیک", "کارآزمایی بالینی"],
+            website: "https://www.mskcc.org",
+            activeTrials: 8,
+            rank: 2,
+            description: "پیشرو در تحقیقات گلیوما و درمان‌های هدفمند"
+        },
+        {
+            id: 3,
+            name: "Dana-Farber Cancer Institute",
+            country: "usa",
+            flag: "🇺🇸",
+            city: "Boston",
+            specialties: ["گلیوبلاستوم", "ژنتیک سرطان", "پزشکی شخصی"],
+            website: "https://www.dana-farber.org",
+            activeTrials: 10,
+            rank: 3,
+            description: "مرکز برتر در تحقیقات ژنتیکی و درمان‌های نوین گلیوما"
+        },
+        {
+            id: 4,
+            name: "Institut Gustave Roussy",
+            country: "france",
+            flag: "🇫🇷",
+            city: "Paris",
+            specialties: ["تومورهای مغزی", "کارآزمایی بالینی", "انکولوژی دقیق"],
+            website: "https://www.gustaveroussy.fr",
+            activeTrials: 6,
+            rank: 4,
+            description: "بزرگترین مرکز سرطان اروپا با تیم تخصصی گلیوما"
+        },
+        {
+            id: 5,
+            name: "German Cancer Research Center (DKFZ)",
+            country: "germany",
+            flag: "🇩🇪",
+            city: "Heidelberg",
+            specialties: ["تحقیقات پایه", "اپی‌ژنتیک", "تصویربرداری مولکولی"],
+            website: "https://www.dkfz.de",
+            activeTrials: 7,
+            rank: 5,
+            description: "پیشرو در تحقیقات پایه و اپی‌ژنتیک گلیوما"
+        },
+        {
+            id: 6,
+            name: "Princess Margaret Cancer Centre",
+            country: "canada",
+            flag: "🇨🇦",
+            city: "Toronto",
+            specialties: ["نوروانکولوژی", "رادیوتراپی", "پژوهش بالینی"],
+            website: "https://www.uhn.ca/PrincessMargaret",
+            activeTrials: 5,
+            rank: 6,
+            description: "مرکز برتر کانادا در درمان و پژوهش گلیوما"
+        },
+        {
+            id: 7,
+            name: "National Cancer Center Japan",
+            country: "japan",
+            flag: "🇯🇵",
+            city: "Tokyo",
+            specialties: ["گلیوما", "پزشکی هسته‌ای", "جراحی مغز"],
+            website: "https://www.ncc.go.jp",
+            activeTrials: 4,
+            rank: 7,
+            description: "پیشرو در جراحی پیشرفته و درمان‌های نوین در آسیا"
+        },
+        {
+            id: 8,
+            name: "Peter MacCallum Cancer Centre",
+            country: "australia",
+            flag: "🇦🇺",
+            city: "Melbourne",
+            specialties: ["ایمونوتراپی", "ژنومیک سرطان", "کارآزمایی بالینی"],
+            website: "https://www.petermac.org",
+            activeTrials: 3,
+            rank: 8,
+            description: "مرکز برتر استرالیا در پژوهش‌های گلیوما"
+        }
+    ];
+
+    // ============================================================
+    // 🎯 توابع مربوط به مراکز
+    // ============================================================
+
+    let currentCenters = [...centersData];
+
+    /**
+     * رندر کردن مراکز در صفحه
+     */
+    function renderCenters(centers) {
+        const grid = document.getElementById('centersGrid');
+        
+        if (!centers || centers.length === 0) {
+            grid.innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;padding:60px 20px;background:#f7fafc;border-radius:20px;">
+                    <i class="fas fa-search" style="font-size:48px;color:#a0aec0;display:block;margin-bottom:16px;"></i>
+                    <h3 style="color:#4a3f5c;">مرکزی یافت نشد</h3>
+                    <p style="color:#a0aec0;">لطفاً جستجوی خود را تغییر دهید.</p>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = centers.map(center => `
+            <div class="center-card" data-country="${center.country}">
+                <div style="display:flex;justify-content:space-between;align-items:start;">
+                    <div>
+                        <div class="name">
+                            ${center.flag} ${center.name}
+                        </div>
+                        <div class="country">
+                            <i class="fas fa-map-pin"></i> ${center.city}
+                        </div>
+                    </div>
+                    <span style="background:#667eea;color:#fff;padding:2px 12px;border-radius:20px;font-size:12px;font-weight:600;">
+                        #${center.rank}
+                    </span>
+                </div>
+                
+                <p style="font-size:13px;color:#718096;margin:8px 0 12px;line-height:1.6;">
+                    ${center.description}
+                </p>
+                
+                <div class="tags">
+                    ${center.specialties.map(s => `<span>${s}</span>`).join('')}
+                    <span style="background:#48bb78;color:#fff;">
+                        <i class="fas fa-flask"></i> ${center.activeTrials} کارآزمایی
+                    </span>
+                </div>
+                
+                <div style="margin-top:12px;display:flex;gap:8px;">
+                    <a href="${center.website}" target="_blank" style="
+                        background:#edf2f7;
+                        padding:4px 16px;
+                        border-radius:20px;
+                        font-size:13px;
+                        color:#4a3f5c;
+                        transition:all 0.3s;
+                        text-decoration:none;
+                    " onmouseover="this.style.background='#667eea';this.style.color='#fff'" 
+                       onmouseout="this.style.background='#edf2f7';this.style.color='#4a3f5c'">
+                        <i class="fas fa-external-link-alt"></i> وب‌سایت
+                    </a>
+                    <button onclick="showCenterDetail(${center.id})" style="
+                        background:transparent;
+                        border:1px solid #667eea;
+                        color:#667eea;
+                        padding:4px 16px;
+                        border-radius:20px;
+                        font-size:13px;
+                        cursor:pointer;
+                        transition:all 0.3s;
+                        font-family:'Vazir',sans-serif;
+                    " onmouseover="this.style.background='#667eea';this.style.color='#fff'" 
+                       onmouseout="this.style.background='transparent';this.style.color='#667eea'">
+                        <i class="fas fa-info-circle"></i> جزئیات
+                    </button>
+                </div>
+            </div>
+        `).join('');
+
+        // بروزرسانی تعداد
+        document.getElementById('centersCount').textContent = centers.length;
+        document.getElementById('trialsCount').textContent = centers.reduce((sum, c) => sum + c.activeTrials, 0);
+    }
+
+    /**
+     * فیلتر کردن مراکز
+     */
+    function filterCenters() {
+        const query = document.getElementById('centersSearch').value.toLowerCase().trim();
+        const countryFilter = document.getElementById('centersFilter').value;
+
+        let filtered = centersData.filter(center => {
+            // فیلتر کشور
+            if (countryFilter !== 'all' && center.country !== countryFilter) {
+                return false;
+            }
+
+            // فیلتر جستجو
+            if (query) {
+                const searchText = (center.name + ' ' + center.city + ' ' + center.specialties.join(' ') + ' ' + center.description).toLowerCase();
+                return searchText.includes(query);
+            }
+
+            return true;
+        });
+
+        currentCenters = filtered;
+        renderCenters(filtered);
+
+        // به‌روزرسانی تعداد
+        document.getElementById('centersCount').textContent = filtered.length;
+    }
+
+    /**
+     * نمایش جزئیات یک مرکز
+     */
+    function showCenterDetail(id) {
+        const center = centersData.find(c => c.id === id);
+        if (!center) return;
+
+        const modalContent = `
+            <div style="text-align:right;">
+                <h2 style="font-size:24px;margin-bottom:8px;">${center.flag} ${center.name}</h2>
+                <p style="color:#718096;margin-bottom:12px;">
+                    <i class="fas fa-map-pin"></i> ${center.city}
+                </p>
+                <p style="margin-bottom:16px;line-height:1.8;">${center.description}</p>
+                
+                <div style="margin-bottom:16px;">
+                    <strong style="display:block;margin-bottom:8px;">تخصص‌ها:</strong>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                        ${center.specialties.map(s => `
+                            <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:14px;">${s}</span>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
+                    <span style="background:#48bb78;color:#fff;padding:4px 16px;border-radius:20px;font-size:14px;">
+                        <i class="fas fa-flask"></i> ${center.activeTrials} کارآزمایی فعال
+                    </span>
+                    <span style="background:#667eea;color:#fff;padding:4px 16px;border-radius:20px;font-size:14px;">
+                        <i class="fas fa-trophy"></i> رتبه #${center.rank}
+                    </span>
+                </div>
+                
+                <a href="${center.website}" target="_blank" style="
+                    display:inline-block;
+                    background:linear-gradient(135deg,#667eea,#764ba2);
+                    color:#fff;
+                    padding:10px 32px;
+                    border-radius:30px;
+                    text-decoration:none;
+                    font-weight:600;
+                ">
+                    <i class="fas fa-external-link-alt"></i> بازدید از وب‌سایت
+                </a>
+            </div>
+        `;
+
+        showModal(`🏥 ${center.name}`, modalContent);
+    }
+
+    /**
+     * نمایش همه مراکز
+     */
+    function showAllCenters() {
+        document.getElementById('centersSearch').value = '';
+        document.getElementById('centersFilter').value = 'all';
+        filterCenters();
+        
+        // اسکرول به بخش مراکز
+        document.getElementById('cancer-centers').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /**
+     * پیشنهاد مرکز جدید
+     */
+    function suggestCenter() {
+        const content = `
+            <div style="text-align:right;">
+                <p style="color:#718096;margin-bottom:16px;">
+                    اگر مرکز سرطانی را می‌شناسید که در لیست ما نیست، لطفاً اطلاعات آن را برای ما ارسال کنید.
+                </p>
+                <form onsubmit="event.preventDefault();submitCenterSuggestion();">
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">نام مرکز:</label>
+                        <input type="text" id="suggestName" placeholder="نام مرکز را وارد کنید" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">کشور:</label>
+                        <input type="text" id="suggestCountry" placeholder="کشور را وارد کنید" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">وب‌سایت:</label>
+                        <input type="url" id="suggestWebsite" placeholder="https://..." style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <button type="submit" style="
+                        width:100%;
+                        background:linear-gradient(135deg,#667eea,#764ba2);
+                        color:#fff;
+                        border:none;
+                        padding:12px;
+                        border-radius:12px;
+                        font-size:16px;
+                        font-weight:600;
+                        cursor:pointer;
+                        font-family:'Vazir',sans-serif;
+                        transition:all 0.3s;
+                    " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-paper-plane"></i> ارسال پیشنهاد
+                    </button>
+                </form>
+            </div>
+        `;
+
+        showModal('➕ پیشنهاد مرکز جدید', content);
+    }
+
+    /**
+     * ارسال پیشنهاد مرکز (شبیه‌سازی)
+     */
+    function submitCenterSuggestion() {
+        const name = document.getElementById('suggestName')?.value.trim();
+        const country = document.getElementById('suggestCountry')?.value.trim();
+        const website = document.getElementById('suggestWebsite')?.value.trim();
+
+        if (!name) {
+            alert('❌ لطفاً نام مرکز را وارد کنید.');
+            return;
+        }
+
+        // بستن مودال
+        const modal = document.querySelector('div[style*="position: fixed"]');
+        if (modal) modal.remove();
+
+        alert(`✅ مرکز "${name}" با موفقیت ثبت شد!\n\nاز پیشنهاد شما متشکریم. پس از بررسی، به دایرکتوری اضافه خواهد شد.`);
+    }
+
+    // ============================================================
+    // 🚀 بارگذاری اولیه
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // بروزرسانی تاریخ
+        const now = new Date();
+        document.getElementById('centersUpdateDate').textContent = now.toLocaleDateString('fa-IR');
+        
+        renderCenters(centersData);
+    });
+</script>

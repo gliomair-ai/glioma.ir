@@ -1,0 +1,494 @@
+<!-- ============================================================
+     📝 CONTRIBUTION - مشارکت‌های پژوهشی
+     ============================================================ -->
+
+<link rel="stylesheet" href="../css/style.css" />
+<section class="contribution" id="contribution">
+    <div class="container">
+        <!-- هدر بخش -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-users" style="color:#667eea;"></i>
+                مشارکت‌های پژوهشی
+            </h2>
+            <p>
+                آخرین مشارکت‌های محققان در دانشنامه گلیوما
+                <br />
+                <span style="font-size:14px;color:#a0aec0;">
+                    هر مشارکت به مدل زبانی اضافه شده و با ذکر نام ارسال‌کننده نمایش داده می‌شود
+                </span>
+            </p>
+        </div>
+
+        <!-- آمار مشارکت‌ها -->
+        <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:32px;">
+            <div style="text-align:center;background:#f7fafc;padding:12px 24px;border-radius:16px;min-width:120px;">
+                <div style="font-size:28px;font-weight:800;color:#667eea;" id="totalContributions">۱۴۷</div>
+                <div style="font-size:13px;color:#718096;">مشارکت کل</div>
+            </div>
+            <div style="text-align:center;background:#f7fafc;padding:12px 24px;border-radius:16px;min-width:120px;">
+                <div style="font-size:28px;font-weight:800;color:#48bb78;" id="activeContributors">۶۸</div>
+                <div style="font-size:13px;color:#718096;">محقق فعال</div>
+            </div>
+            <div style="text-align:center;background:#f7fafc;padding:12px 24px;border-radius:16px;min-width:120px;">
+                <div style="font-size:28px;font-weight:800;color:#ed8936;" id="todayContributions">۵</div>
+                <div style="font-size:13px;color:#718096;">مشارکت امروز</div>
+            </div>
+        </div>
+
+        <!-- لیست مشارکت‌ها -->
+        <div class="contribution-feed" id="contributionFeed">
+            <!-- مشارکت‌ها توسط JavaScript ساخته می‌شوند -->
+        </div>
+
+        <!-- دکمه‌های اقدام -->
+        <div style="text-align:center;margin-top:32px;">
+            <button class="btn-primary" onclick="openContributionForm()">
+                <i class="fas fa-plus-circle"></i> ارسال مقاله/مطالعه جدید
+            </button>
+            <button class="btn-outline" style="margin-right:12px;" onclick="showTopContributors()">
+                <i class="fas fa-trophy"></i> مشاهده برترین مشارکت‌کنندگان
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 اسکریپت‌های مربوط به مشارکت‌ها
+     ============================================================ -->
+
+<script>
+    // ============================================================
+    // 📊 داده‌های مشارکت‌ها
+    // ============================================================
+
+    const contributionsData = [
+        {
+            id: 1,
+            name: "دکتر رضا قفاری",
+            initials: "ر ق",
+            type: "مقاله جدید",
+            title: "Pancreatic Tumors Hijack Genes Involved in Learning, Memory, and Hope",
+            category: "ژنومیک",
+            date: "۱۴۰۵/۰۴/۲۶",
+            status: "approved",
+            description: "تحلیل ترانسکریپتومیک مبتنی بر GEO با تمرکز بر تومورهای پانکراس"
+        },
+        {
+            id: 2,
+            name: "دکتر علی ج‌باری",
+            initials: "ع ج",
+            type: "به‌روزرسانی",
+            title: "طبقه‌بندی ژن‌های مسیر PI3K در گلیوبلاستوما",
+            category: "هوش مصنوعی",
+            date: "۱۴۰۵/۰۴/۲۵",
+            status: "approved",
+            description: "استفاده از SVM و روش‌های Ensemble برای طبقه‌بندی ژن‌های مسیر PI3K"
+        },
+        {
+            id: 3,
+            name: "دکتر سارا محمدی",
+            initials: "س م",
+            type: "مقاله جدید",
+            title: "بررسی ساختاری ژن‌های کانال یونی با استفاده از سیگنال‌های ژنومی",
+            category: "بیوانفورماتیک",
+            date: "۱۴۰۵/۰۴/۲۴",
+            status: "pending",
+            description: "تحلیل شباهت‌های ساختاری در ژن‌های کانال یونی با رویکرد سیگنال‌های ژنومی"
+        },
+        {
+            id: 4,
+            name: "دکتر حسین رضایی",
+            initials: "ح ر",
+            type: "مرکز جدید",
+            title: "افزودن مرکز سرطان دانشکده پزشکی تهران",
+            category: "مراکز سرطان",
+            date: "۱۴۰۵/۰۴/۲۳",
+            status: "approved",
+            description: "اطلاعات کامل مرکز سرطان امام خمینی تهران به دایرکتوری اضافه شد"
+        },
+        {
+            id: 5,
+            name: "دکتر ندا کریمی",
+            initials: "ن ک",
+            type: "به‌روزرسانی",
+            title: "به‌روزرسانی داروهای اپی‌ژنتیک گلیوما",
+            category: "دارو درمانی",
+            date: "۱۴۰۵/۰۴/۲۲",
+            status: "approved",
+            description: "افزودن اطلاعات جدید در مورد داروهای Vorinostat و Panobinostat"
+        },
+        {
+            id: 6,
+            name: "دکتر محمد جواد حسینی",
+            initials: "م ح",
+            type: "مقاله جدید",
+            title: "پیش‌بینی پیامدهای بالینی ویروس دنگی با ML",
+            category: "هوش مصنوعی",
+            date: "۱۴۰۵/۰۴/۲۱",
+            status: "pending",
+            description: "استفاده از ویژگی‌های ساختاری ژنوم و الگوریتم‌های یادگیری ماشین"
+        },
+        {
+            id: 7,
+            name: "دکتر فاطمه عابدی",
+            initials: "ف ع",
+            type: "مقاله جدید",
+            title: "طبقه‌بندی ویروس‌های ssRNA با ویژگی‌های ژنومی",
+            category: "بیوانفورماتیک",
+            date: "۱۴۰۵/۰۴/۲۰",
+            status: "approved",
+            description: "تحلیل توزیع بالینی بین گروه‌های +ssRNA و -ssRNA"
+        }
+    ];
+
+    // ============================================================
+    // 🎯 توابع مربوط به مشارکت‌ها
+    // ============================================================
+
+    let currentContributions = [...contributionsData];
+
+    /**
+     * رندر کردن مشارکت‌ها
+     */
+    function renderContributions(contributions) {
+        const feed = document.getElementById('contributionFeed');
+        
+        if (!contributions || contributions.length === 0) {
+            feed.innerHTML = `
+                <div style="text-align:center;padding:40px;background:#f7fafc;border-radius:16px;">
+                    <i class="fas fa-inbox" style="font-size:40px;color:#a0aec0;display:block;margin-bottom:12px;"></i>
+                    <p style="color:#718096;">هیچ مشارکتی یافت نشد.</p>
+                </div>
+            `;
+            return;
+        }
+
+        feed.innerHTML = contributions.map(contrib => `
+            <div class="contribution-item" style="border-right-color: ${contrib.status === 'approved' ? '#48bb78' : '#ed8936'}">
+                <div class="avatar">${contrib.initials}</div>
+                <div class="info">
+                    <div class="name">
+                        ${contrib.name}
+                        <span style="font-size:12px;font-weight:400;color:#a0aec0;margin-right:8px;">
+                            ${contrib.date}
+                        </span>
+                    </div>
+                    <div class="desc">
+                        <span style="
+                            background: ${contrib.type === 'مقاله جدید' ? '#667eea' : contrib.type === 'به‌روزرسانی' ? '#48bb78' : '#ed8936'};
+                            color:#fff;
+                            padding:1px 12px;
+                            border-radius:12px;
+                            font-size:11px;
+                            display:inline-block;
+                            margin-left:8px;
+                        ">${contrib.type}</span>
+                        <strong>${contrib.title}</strong>
+                        <span style="
+                            background:#edf2f7;
+                            padding:1px 12px;
+                            border-radius:12px;
+                            font-size:11px;
+                            color:#4a3f5c;
+                            margin-right:8px;
+                        ">${contrib.category}</span>
+                    </div>
+                    <div style="font-size:13px;color:#718096;margin-top:4px;">
+                        ${contrib.description}
+                        <span style="
+                            display:inline-block;
+                            margin-right:12px;
+                            font-size:12px;
+                            color: ${contrib.status === 'approved' ? '#48bb78' : '#ed8936'};
+                        ">
+                            <i class="fas fa-${contrib.status === 'approved' ? 'check-circle' : 'clock'}"></i>
+                            ${contrib.status === 'approved' ? 'تایید شده' : 'در انتظار بررسی'}
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <button onclick="showContributionDetail(${contrib.id})" style="
+                        background:transparent;
+                        border:1px solid #667eea;
+                        color:#667eea;
+                        padding:4px 16px;
+                        border-radius:20px;
+                        font-size:13px;
+                        cursor:pointer;
+                        transition:all 0.3s;
+                        font-family:'Vazir',sans-serif;
+                    " onmouseover="this.style.background='#667eea';this.style.color='#fff'" 
+                       onmouseout="this.style.background='transparent';this.style.color='#667eea'">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    /**
+     * نمایش جزئیات یک مشارکت
+     */
+    function showContributionDetail(id) {
+        const contrib = contributionsData.find(c => c.id === id);
+        if (!contrib) return;
+
+        const content = `
+            <div style="text-align:right;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <div style="
+                        width:48px;height:48px;border-radius:50%;
+                        background:linear-gradient(135deg,#667eea,#764ba2);
+                        display:flex;align-items:center;justify-content:center;
+                        color:#fff;font-weight:700;font-size:18px;
+                    ">${contrib.initials}</div>
+                    <div>
+                        <h3 style="font-size:18px;">${contrib.name}</h3>
+                        <p style="color:#718096;font-size:14px;">${contrib.date}</p>
+                    </div>
+                </div>
+                
+                <div style="background:#f7fafc;padding:16px;border-radius:12px;margin-bottom:16px;">
+                    <h4 style="font-size:16px;">${contrib.title}</h4>
+                    <p style="color:#718096;font-size:14px;margin-top:8px;">${contrib.description}</p>
+                </div>
+                
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:14px;">
+                        <i class="fas fa-tag"></i> ${contrib.category}
+                    </span>
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:14px;">
+                        <i class="fas fa-file-alt"></i> ${contrib.type}
+                    </span>
+                    <span style="background:${contrib.status === 'approved' ? '#48bb78' : '#ed8936'};color:#fff;padding:4px 16px;border-radius:20px;font-size:14px;">
+                        <i class="fas fa-${contrib.status === 'approved' ? 'check' : 'clock'}"></i>
+                        ${contrib.status === 'approved' ? 'تایید شده' : 'در انتظار بررسی'}
+                    </span>
+                </div>
+                
+                <div style="margin-top:16px;padding-top:16px;border-top:1px solid #edf2f7;">
+                    <p style="font-size:13px;color:#a0aec0;">
+                        <i class="fas fa-info-circle"></i>
+                        این مشارکت به مدل زبانی گلیوما اضافه شده و در پاسخ‌ها با ذکر نام ارسال‌کننده نمایش داده می‌شود.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        showModal(`📝 ${contrib.type} - ${contrib.category}`, content);
+    }
+
+    /**
+     * باز کردن فرم ارسال مشارکت
+     */
+    function openContributionForm() {
+        const content = `
+            <div style="text-align:right;">
+                <p style="color:#718096;margin-bottom:16px;">
+                    با ارسال مقاله یا مطالعه جدید، به دانشنامه گلیوما کمک کنید.
+                    اطلاعات شما با ذکر نام در پاسخ‌های مدل زبانی نمایش داده می‌شود.
+                </p>
+                <form onsubmit="event.preventDefault();submitContribution();">
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">نوع مشارکت:</label>
+                        <select id="contribType" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                            <option value="مقاله جدید">📄 مقاله جدید</option>
+                            <option value="به‌روزرسانی">🔄 به‌روزرسانی مقاله موجود</option>
+                            <option value="مرکز جدید">🏥 مرکز جدید</option>
+                            <option value="ابزار جدید">🛠️ ابزار جدید</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">عنوان:</label>
+                        <input type="text" id="contribTitle" placeholder="عنوان مقاله یا مطالعه" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">دسته‌بندی:</label>
+                        <select id="contribCategory" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                            <option value="ژنومیک">🧬 ژنومیک و بیولوژی</option>
+                            <option value="دارو درمانی">💊 دارو درمانی</option>
+                            <option value="هوش مصنوعی">🤖 هوش مصنوعی</option>
+                            <option value="بیوانفورماتیک">📊 بیوانفورماتیک</option>
+                            <option value="مراکز سرطان">🏥 مراکز سرطان</option>
+                            <option value="اپی‌ژنتیک">🧬 اپی‌ژنتیک</option>
+                            <option value="تصویربرداری">🖼️ تصویربرداری</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">توضیحات:</label>
+                        <textarea id="contribDescription" rows="3" placeholder="توضیحات کامل مشارکت..." style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                            resize:vertical;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">لینک مقاله (اختیاری):</label>
+                        <input type="url" id="contribLink" placeholder="https://..." style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <button type="submit" style="
+                        width:100%;
+                        background:linear-gradient(135deg,#667eea,#764ba2);
+                        color:#fff;
+                        border:none;
+                        padding:12px;
+                        border-radius:12px;
+                        font-size:16px;
+                        font-weight:600;
+                        cursor:pointer;
+                        font-family:'Vazir',sans-serif;
+                        transition:all 0.3s;
+                    " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-paper-plane"></i> ارسال مشارکت
+                    </button>
+                </form>
+            </div>
+        `;
+
+        showModal('➕ ارسال مشارکت جدید', content);
+    }
+
+    /**
+     * ارسال مشارکت (شبیه‌سازی)
+     */
+    function submitContribution() {
+        const type = document.getElementById('contribType')?.value;
+        const title = document.getElementById('contribTitle')?.value.trim();
+        const category = document.getElementById('contribCategory')?.value;
+        const description = document.getElementById('contribDescription')?.value.trim();
+
+        if (!title) {
+            alert('❌ لطفاً عنوان را وارد کنید.');
+            return;
+        }
+
+        if (!description) {
+            alert('❌ لطفاً توضیحات را وارد کنید.');
+            return;
+        }
+
+        // بستن مودال
+        const modal = document.querySelector('div[style*="position: fixed"]');
+        if (modal) modal.remove();
+
+        // افزودن به لیست
+        const newContrib = {
+            id: contributionsData.length + 1,
+            name: "شما (کاربر مهمان)",
+            initials: "ش",
+            type: type || "مقاله جدید",
+            title: title,
+            category: category || "سایر",
+            date: new Date().toLocaleDateString('fa-IR'),
+            status: "pending",
+            description: description
+        };
+
+        contributionsData.unshift(newContrib);
+        renderContributions(contributionsData);
+
+        alert(`✅ مشارکت "${title}" با موفقیت ارسال شد!\n\nپس از بررسی، به مدل زبانی اضافه خواهد شد و در پاسخ‌ها با ذکر نام شما نمایش داده می‌شود.`);
+    }
+
+    /**
+     * نمایش برترین مشارکت‌کنندگان
+     */
+    function showTopContributors() {
+        // محاسبه تعداد مشارکت هر فرد
+        const counts = {};
+        contributionsData.forEach(c => {
+            counts[c.name] = (counts[c.name] || 0) + 1;
+        });
+
+        const sorted = Object.entries(counts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5);
+
+        const content = `
+            <div style="text-align:right;">
+                <h3 style="font-size:20px;margin-bottom:16px;">🏆 برترین مشارکت‌کنندگان</h3>
+                ${sorted.map(([name, count], index) => `
+                    <div style="
+                        display:flex;align-items:center;gap:16px;
+                        padding:12px 16px;
+                        background:${index === 0 ? 'linear-gradient(135deg,#f6d365,#fda085)' : '#f7fafc'};
+                        border-radius:12px;
+                        margin-bottom:8px;
+                        border:${index === 0 ? '2px solid #f6d365' : 'none'};
+                    ">
+                        <span style="
+                            font-size:24px;
+                            font-weight:800;
+                            width:40px;
+                            text-align:center;
+                            color:${index === 0 ? '#e67e22' : '#a0aec0'};
+                        ">#${index + 1}</span>
+                        <span style="flex:1;font-weight:600;">${name}</span>
+                        <span style="
+                            background:#667eea;
+                            color:#fff;
+                            padding:2px 16px;
+                            border-radius:20px;
+                            font-size:14px;
+                        ">${count} مشارکت</span>
+                    </div>
+                `).join('')}
+                
+                <div style="margin-top:16px;padding-top:16px;border-top:1px solid #edf2f7;">
+                    <p style="font-size:13px;color:#a0aec0;">
+                        <i class="fas fa-info-circle"></i>
+                        برترین مشارکت‌کنندگان در صفحه اصلی و در پاسخ‌های مدل زبانی نمایش داده می‌شوند.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        showModal('🏆 برترین مشارکت‌کنندگان', content);
+    }
+
+    // ============================================================
+    // 🚀 بارگذاری اولیه
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderContributions(contributionsData);
+    });
+</script>

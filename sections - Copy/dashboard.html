@@ -1,0 +1,301 @@
+<!-- ============================================================
+     📊 DASHBOARD - داشبورد آماری
+     ============================================================ -->
+
+<link rel="stylesheet" href="../css/style.css" />
+<section class="dashboard" id="dashboard">
+    <div class="container">
+        <!-- هدر بخش -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-chart-pie" style="color:#667eea;"></i>
+                داشبورد آماری
+            </h2>
+            <p>
+                آمار لحظه‌ای پایگاه داده گلیوما
+                <br />
+                <span style="font-size:14px;color:#a0aec0;">
+                    آخرین بروزرسانی: <span id="dashboardUpdateTime">در حال بارگذاری...</span>
+                </span>
+            </p>
+        </div>
+
+        <!-- آمار اصلی -->
+        <div class="dashboard-stats" id="dashboardStats">
+            <!-- توسط JavaScript پر می‌شود -->
+        </div>
+
+        <!-- نمودارهای ساده (CSS) -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px;max-width:1000px;margin-left:auto;margin-right:auto;">
+            <!-- نمودار رشد مقالات -->
+            <div style="background:#f7fafc;padding:24px;border-radius:16px;border:1px solid #edf2f7;">
+                <h4 style="font-size:16px;margin-bottom:16px;">
+                    <i class="fas fa-chart-line" style="color:#667eea;"></i>
+                    رشد مقالات گلیوما
+                </h4>
+                <div style="display:flex;align-items:flex-end;gap:8px;height:150px;padding-bottom:8px;">
+                    <div style="flex:1;text-align:center;">
+                        <div style="height:30px;background:linear-gradient(180deg,#667eea,#764ba2);border-radius:6px 6px 0 0;width:60%;margin:0 auto;" title="۱۴۰۰: ۲۵ مقاله"></div>
+                        <div style="font-size:11px;color:#a0aec0;margin-top:4px;">۱۴۰۰</div>
+                    </div>
+                    <div style="flex:1;text-align:center;">
+                        <div style="height:50px;background:linear-gradient(180deg,#667eea,#764ba2);border-radius:6px 6px 0 0;width:60%;margin:0 auto;" title="۱۴۰۱: ۴۲ مقاله"></div>
+                        <div style="font-size:11px;color:#a0aec0;margin-top:4px;">۱۴۰۱</div>
+                    </div>
+                    <div style="flex:1;text-align:center;">
+                        <div style="height:80px;background:linear-gradient(180deg,#667eea,#764ba2);border-radius:6px 6px 0 0;width:60%;margin:0 auto;" title="۱۴۰۲: ۶۸ مقاله"></div>
+                        <div style="font-size:11px;color:#a0aec0;margin-top:4px;">۱۴۰۲</div>
+                    </div>
+                    <div style="flex:1;text-align:center;">
+                        <div style="height:110px;background:linear-gradient(180deg,#667eea,#764ba2);border-radius:6px 6px 0 0;width:60%;margin:0 auto;" title="۱۴۰۳: ۹۵ مقاله"></div>
+                        <div style="font-size:11px;color:#a0aec0;margin-top:4px;">۱۴۰۳</div>
+                    </div>
+                    <div style="flex:1;text-align:center;">
+                        <div style="height:140px;background:linear-gradient(180deg,#f093fb,#f5576c);border-radius:6px 6px 0 0;width:60%;margin:0 auto;" title="۱۴۰۴: ۱۳۰ مقاله"></div>
+                        <div style="font-size:11px;color:#a0aec0;margin-top:4px;">۱۴۰۴</div>
+                    </div>
+                    <div style="flex:1;text-align:center;">
+                        <div style="height:160px;background:linear-gradient(180deg,#f093fb,#f5576c);border-radius:6px 6px 0 0;width:60%;margin:0 auto;animation:pulse 2s infinite;" title="۱۴۰۵: ۱۸۰ مقاله"></div>
+                        <div style="font-size:11px;color:#a0aec0;margin-top:4px;">۱۴۰۵</div>
+                    </div>
+                </div>
+                <p style="text-align:center;font-size:13px;color:#a0aec0;margin-top:8px;">
+                    <span style="color:#48bb78;">▲ ۳۸٪</span> رشد نسبت به سال گذشته
+                </p>
+            </div>
+
+            <!-- توزیع دسته‌بندی -->
+            <div style="background:#f7fafc;padding:24px;border-radius:16px;border:1px solid #edf2f7;">
+                <h4 style="font-size:16px;margin-bottom:16px;">
+                    <i class="fas fa-tags" style="color:#667eea;"></i>
+                    توزیع دسته‌بندی مقالات
+                </h4>
+                <div id="categoryDistribution">
+                    <!-- توسط JavaScript پر می‌شود -->
+                </div>
+            </div>
+        </div>
+
+        <!-- پایش KEGG -->
+        <div style="max-width:1000px;margin:32px auto 0;background:linear-gradient(135deg,#f7fafc,#edf2f7);padding:20px 24px;border-radius:16px;border:1px solid #e2e8f0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                <div>
+                    <h4 style="font-size:16px;">
+                        <i class="fas fa-database" style="color:#667eea;"></i>
+                        پایش روزانه KEGG
+                    </h4>
+                    <p style="font-size:13px;color:#718096;">
+                        آخرین بروزرسانی: <span id="keggLastUpdate">۱۴۰۵/۰۴/۲۶ - ۱۴:۳۰</span>
+                    </p>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <span style="
+                        display:inline-block;
+                        width:10px;
+                        height:10px;
+                        background:#48bb78;
+                        border-radius:50%;
+                        animation:pulse 1.5s infinite;
+                    "></span>
+                    <span style="font-size:14px;color:#48bb78;font-weight:600;">
+                        <i class="fas fa-check-circle"></i> سیستم فعال
+                    </span>
+                    <button onclick="manualKeggUpdate()" style="
+                        background:#667eea;
+                        color:#fff;
+                        border:none;
+                        padding:6px 20px;
+                        border-radius:20px;
+                        font-size:13px;
+                        cursor:pointer;
+                        font-family:'Vazir',sans-serif;
+                        transition:all 0.3s;
+                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-sync"></i> بروزرسانی دستی
+                    </button>
+                </div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;">
+                <span style="background:#fff;padding:4px 16px;border-radius:20px;font-size:13px;color:#4a3f5c;">
+                    <i class="fas fa-dna"></i> ۴۵۰ ژن
+                </span>
+                <span style="background:#fff;padding:4px 16px;border-radius:20px;font-size:13px;color:#4a3f5c;">
+                    <i class="fas fa-project-diagram"></i> ۱,۲۰۰ مسیر
+                </span>
+                <span style="background:#fff;padding:4px 16px;border-radius:20px;font-size:13px;color:#4a3f5c;">
+                    <i class="fas fa-capsules"></i> ۳۰۰ دارو
+                </span>
+                <span style="background:#fff;padding:4px 16px;border-radius:20px;font-size:13px;color:#4a3f5c;">
+                    <i class="fas fa-arrow-up"></i> ۱۲ به‌روزرسانی جدید
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 اسکریپت‌های مربوط به داشبورد
+     ============================================================ -->
+
+<script>
+    // ============================================================
+    // 📊 داده‌های داشبورد
+    // ============================================================
+
+    const dashboardData = {
+        articles: 180,
+        studies: 280,
+        genes: 450,
+        pathways: 1200,
+        drugs: 300,
+        centers: 302,
+        activeTrials: 1247,
+        contributions: 147,
+        activeUsers: 68,
+        todayContributions: 5,
+        keggLastUpdate: '۱۴۰۵/۰۴/۲۶ - ۱۴:۳۰'
+    };
+
+    const categoriesData = [
+        { name: 'ژنومیک', count: 45, color: '#667eea' },
+        { name: 'دارو درمانی', count: 38, color: '#48bb78' },
+        { name: 'هوش مصنوعی', count: 35, color: '#f093fb' },
+        { name: 'بیوانفورماتیک', count: 30, color: '#f5576c' },
+        { name: 'اپی‌ژنتیک', count: 25, color: '#ed8936' },
+        { name: 'تصویربرداری', count: 22, color: '#4299e1' },
+        { name: 'بالینی', count: 18, color: '#9f7aea' },
+        { name: 'متاآنالیز', count: 15, color: '#68d391' }
+    ];
+
+    // ============================================================
+    // 🎯 توابع مربوط به داشبورد
+    // ============================================================
+
+    /**
+     * رندر کردن آمار داشبورد
+     */
+    function renderDashboardStats() {
+        const statsContainer = document.getElementById('dashboardStats');
+        
+        const stats = [
+            { number: dashboardData.articles, label: 'مقالات', icon: 'fa-newspaper', color: '#667eea' },
+            { number: dashboardData.studies, label: 'مطالعات', icon: 'fa-file-alt', color: '#48bb78' },
+            { number: dashboardData.genes, label: 'ژن', icon: 'fa-dna', color: '#f093fb' },
+            { number: dashboardData.pathways, label: 'مسیر مولکولی', icon: 'fa-project-diagram', color: '#f5576c' },
+            { number: dashboardData.drugs, label: 'دارو', icon: 'fa-capsules', color: '#ed8936' },
+            { number: dashboardData.centers, label: 'مرکز سرطان', icon: 'fa-hospital', color: '#4299e1' },
+            { number: dashboardData.activeTrials, label: 'کارآزمایی بالینی', icon: 'fa-flask', color: '#9f7aea' },
+            { number: dashboardData.contributions, label: 'مشارکت', icon: 'fa-users', color: '#68d391' }
+        ];
+
+        statsContainer.innerHTML = stats.map(stat => `
+            <div class="dashboard-stat">
+                <div class="number" style="color:${stat.color}">
+                    ${stat.number.toLocaleString('fa-IR')}
+                </div>
+                <div class="label">
+                    <i class="fas ${stat.icon}" style="color:${stat.color};margin-left:4px;"></i>
+                    ${stat.label}
+                </div>
+                ${stat.label === 'مسیر مولکولی' || stat.label === 'ژن' ? `
+                    <div class="status">
+                        <i class="fas fa-check-circle"></i> به‌روز
+                    </div>
+                ` : ''}
+            </div>
+        `).join('');
+    }
+
+    /**
+     * رندر کردن توزیع دسته‌بندی
+     */
+    function renderCategoryDistribution() {
+        const container = document.getElementById('categoryDistribution');
+        
+        const total = categoriesData.reduce((sum, c) => sum + c.count, 0);
+        
+        container.innerHTML = categoriesData.map(cat => {
+            const percentage = (cat.count / total * 100).toFixed(0);
+            return `
+                <div style="margin-bottom:8px;">
+                    <div style="display:flex;justify-content:space-between;font-size:14px;">
+                        <span>${cat.name}</span>
+                        <span style="color:#718096;">${cat.count} مقاله (${percentage}%)</span>
+                    </div>
+                    <div style="
+                        width:100%;
+                        height:8px;
+                        background:#edf2f7;
+                        border-radius:10px;
+                        overflow:hidden;
+                        margin-top:2px;
+                    ">
+                        <div style="
+                            width:${percentage}%;
+                            height:100%;
+                            background:${cat.color};
+                            border-radius:10px;
+                            transition:width 1s ease;
+                        "></div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    /**
+     * بروزرسانی دستی KEGG
+     */
+    function manualKeggUpdate() {
+        const btn = event?.target || document.querySelector('[onclick="manualKeggUpdate()"]');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال بروزرسانی...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+            const now = new Date();
+            const timeStr = now.toLocaleDateString('fa-IR') + ' - ' + now.toLocaleTimeString('fa-IR');
+            document.getElementById('keggLastUpdate').textContent = timeStr;
+            
+            btn.innerHTML = '<i class="fas fa-check"></i> بروزرسانی شد!';
+            btn.style.background = '#48bb78';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '#667eea';
+                btn.disabled = false;
+            }, 2000);
+            
+            // شبیه‌سازی افزایش آمار
+            dashboardData.genes += Math.floor(Math.random() * 3);
+            dashboardData.pathways += Math.floor(Math.random() * 5);
+            renderDashboardStats();
+            
+        }, 2000);
+    }
+
+    // ============================================================
+    // 🚀 بارگذاری اولیه
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // بروزرسانی زمان
+        const now = new Date();
+        document.getElementById('dashboardUpdateTime').textContent = 
+            now.toLocaleDateString('fa-IR') + ' - ' + now.toLocaleTimeString('fa-IR');
+        
+        renderDashboardStats();
+        renderCategoryDistribution();
+    });
+
+    // انیمیشن pulse برای نقطه سبز
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+    `;
+    document.head.appendChild(style);
+</script>

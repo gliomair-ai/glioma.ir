@@ -1,0 +1,81 @@
+<!-- ============================================================
+     🚀 HERO SECTION
+     ============================================================ -->
+
+<link rel="stylesheet" href="../css/style.css" />
+<section class="hero">
+    <div class="container">
+        <!-- نشان -->
+        <div class="hero-badge">
+            <i class="fas fa-microchip"></i>
+            مبتنی بر هوش مصنوعی پیشرفته
+        </div>
+
+        <!-- تیتر -->
+        <h1>
+            از <span>ژنوم</span> تا <span>درمان</span>
+        </h1>
+        <p>
+            دانشنامه زنده گلیوما با هوش مصنوعی پیشرفته
+            <br />
+            <span style="font-size:16px;opacity:0.6;">
+                تحلیل ۱۸۰ مقاله | پایش روزانه KEGG | دستیار هوشمند
+            </span>
+        </p>
+
+        <!-- دکمه‌ها -->
+        <div class="hero-buttons">
+            <button class="btn-primary" onclick="scrollToAI()">
+                <i class="fas fa-robot"></i> جستجو با هوش مصنوعی
+            </button>
+            <button class="btn-secondary" onclick="scrollToKnowledge()">
+                <i class="fas fa-book-open"></i> مرور مقالات
+            </button>
+            <button class="btn-secondary" onclick="scrollToTools()">
+                <i class="fas fa-chart-line"></i> تحلیل داده
+            </button>
+        </div>
+
+        <!-- آمار کلیدی -->
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="number">۲۸۰</div>
+                <div class="label"><i class="fas fa-file-alt"></i> مطالعه</div>
+            </div>
+            <div class="stat">
+                <div class="number">۱۸۰</div>
+                <div class="label"><i class="fas fa-newspaper"></i> مقاله</div>
+            </div>
+            <div class="stat">
+                <div class="number">۱۵۰+</div>
+                <div class="label"><i class="fas fa-capsules"></i> دارو</div>
+            </div>
+            <div class="stat">
+                <div class="number">۳۰۰+</div>
+                <div class="label"><i class="fas fa-hospital"></i> مرکز سرطان</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 اسکریپت‌های مربوط به Hero
+     ============================================================ -->
+
+<script>
+    // اسکرول به بخش‌های مختلف
+    function scrollToAI() {
+        document.getElementById('ai-assistant-container')
+            ?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function scrollToKnowledge() {
+        document.getElementById('knowledge-base-container')
+            ?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function scrollToTools() {
+        document.getElementById('research-tools-container')
+            ?.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>

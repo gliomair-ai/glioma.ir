@@ -1,0 +1,354 @@
+<!-- ============================================================
+     📰 NEWS - Glioma News & Events
+     ============================================================ -->
+
+<link rel="stylesheet" href="../css/style.css" />
+<section class="news" id="news">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-newspaper" style="color:#667eea;"></i>
+                Glioma News & Events
+            </h2>
+            <p>
+                Latest developments, conferences and research achievements in the field of glioma
+                <br />
+                <span style="font-size:14px;color:#a0aec0;">
+                    Automated monitoring from NCBI and PubMed
+                </span>
+            </p>
+        </div>
+
+        <!-- News List -->
+        <div class="news-grid" id="newsGrid">
+            <!-- Built by JavaScript -->
+        </div>
+
+        <!-- View All Button -->
+        <div style="text-align:center;margin-top:32px;">
+            <button class="btn-outline" onclick="showAllNews()">
+                <i class="fas fa-eye"></i> View All News
+            </button>
+            <button class="btn-outline" style="margin-right:12px;" onclick="suggestNews()">
+                <i class="fas fa-plus-circle"></i> Submit News
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 News Scripts
+     ============================================================ -->
+
+<script>
+    // ============================================================
+    // 📊 News Data
+    // ============================================================
+
+    const newsData = [
+        {
+            id: 1,
+            type: 'Conference',
+            badge: 'Event',
+            badgeColor: '#667eea',
+            title: 'International Congress on Artificial Intelligence in Health',
+            description: 'Featuring top researchers in AI and medicine, the most specialized event of the year in AI and glioma.',
+            date: '2026-03-23',
+            link: '#',
+            source: 'Iran University of Medical Sciences'
+        },
+        {
+            id: 2,
+            type: 'Research',
+            badge: 'New Discovery',
+            badgeColor: '#48bb78',
+            title: 'Epigenetic Role in Glioma Treatment Resistance',
+            description: 'Researchers at Tehran University of Medical Sciences discovered a new role of epigenetic changes in resistance to Temozolomide.',
+            date: '2026-07-24',
+            link: '#',
+            source: 'Nature Reviews Neurology'
+        },
+        {
+            id: 3,
+            type: 'Trial',
+            badge: 'Clinical',
+            badgeColor: '#ed8936',
+            title: 'Phase 3 Trial of New Glioma Drug',
+            description: 'A new PARP inhibitor drug with promising results in Phase 3 trials, bringing new hope for glioblastoma patients.',
+            date: '2026-07-20',
+            link: '#',
+            source: 'Lancet Oncology'
+        },
+        {
+            id: 4,
+            type: 'Webinar',
+            badge: 'Webinar',
+            badgeColor: '#9f7aea',
+            title: 'Specialized Webinar: From Genomics to Glioma Treatment',
+            description: 'Free webinar with Dr. Reza Ghaffari and research team, reviewing the latest therapeutic and genomic achievements in glioma.',
+            date: '2026-07-28',
+            link: '#',
+            source: 'GliomaHub'
+        },
+        {
+            id: 5,
+            type: 'Article',
+            badge: 'New Article',
+            badgeColor: '#4299e1',
+            title: 'PI3K Pathway Classification in Glioblastoma with SVM',
+            description: 'A new article presented at the International Congress on AI in Health, focusing on PI3K pathway gene classification.',
+            date: '2026-07-18',
+            link: '#',
+            source: 'International Congress on AI in Health'
+        },
+        {
+            id: 6,
+            type: 'Award',
+            badge: 'Achievement',
+            badgeColor: '#f6ad55',
+            title: 'Best Young Glioma Researcher Award',
+            description: 'Dr. Reza Ghaffari received the award for innovative research in glioma and artificial intelligence.',
+            date: '2026-07-15',
+            link: '#',
+            source: 'Iranian Neuro-Oncology Society'
+        }
+    ];
+
+    // ============================================================
+    // 🎯 News Functions
+    // ============================================================
+
+    /**
+     * Render news
+     */
+    function renderNews(news) {
+        const grid = document.getElementById('newsGrid');
+        
+        if (!news || news.length === 0) {
+            grid.innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;padding:60px 20px;background:#f7fafc;border-radius:20px;">
+                    <i class="fas fa-inbox" style="font-size:48px;color:#a0aec0;display:block;margin-bottom:16px;"></i>
+                    <h3 style="color:#4a3f5c;">No news found</h3>
+                    <p style="color:#a0aec0;">Please check back later.</p>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = news.map(item => `
+            <div class="news-card" onclick="showNewsDetail(${item.id})">
+                <span class="badge" style="background:${item.badgeColor};">${item.badge}</span>
+                <h4>${item.title}</h4>
+                <p style="margin-top:4px;">${item.description}</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:13px;color:#a0aec0;">
+                    <span><i class="fas fa-calendar-alt"></i> ${item.date}</span>
+                    <span><i class="fas fa-building"></i> ${item.source}</span>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:8px;">
+                    <span style="background:#edf2f7;padding:2px 12px;border-radius:12px;font-size:12px;color:#4a3f5c;">
+                        <i class="fas fa-tag"></i> ${item.type}
+                    </span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    /**
+     * Show news details
+     */
+    function showNewsDetail(id) {
+        const item = newsData.find(n => n.id === id);
+        if (!item) return;
+
+        const content = `
+            <div style="text-align:right;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <span style="background:${item.badgeColor};color:#fff;padding:4px 16px;border-radius:20px;font-size:14px;">
+                        ${item.badge}
+                    </span>
+                    <span style="color:#a0aec0;font-size:14px;">
+                        <i class="fas fa-calendar-alt"></i> ${item.date}
+                    </span>
+                </div>
+                
+                <h3 style="font-size:20px;margin-bottom:12px;">${item.title}</h3>
+                
+                <div style="background:#f7fafc;padding:16px;border-radius:12px;margin-bottom:16px;">
+                    <p style="color:#4a3f5c;line-height:1.8;">${item.description}</p>
+                </div>
+                
+                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:14px;color:#4a3f5c;">
+                        <i class="fas fa-building"></i> ${item.source}
+                    </span>
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:14px;color:#4a3f5c;">
+                        <i class="fas fa-tag"></i> ${item.type}
+                    </span>
+                </div>
+                
+                <a href="${item.link}" target="_blank" style="
+                    display:inline-block;
+                    background:linear-gradient(135deg,#667eea,#764ba2);
+                    color:#fff;
+                    padding:10px 32px;
+                    border-radius:30px;
+                    text-decoration:none;
+                    font-weight:600;
+                ">
+                    <i class="fas fa-external-link-alt"></i> Read More
+                </a>
+            </div>
+        `;
+
+        showModal(`📰 ${item.badge}`, content);
+    }
+
+    /**
+     * Show all news
+     */
+    function showAllNews() {
+        const content = `
+            <div style="text-align:right;max-height:400px;overflow-y:auto;">
+                ${newsData.map(item => `
+                    <div style="
+                        padding:12px;
+                        border-bottom:1px solid #edf2f7;
+                        cursor:pointer;
+                        transition:all 0.3s;
+                    " onmouseover="this.style.background='#f7fafc'" onmouseout="this.style.background='transparent'"
+                       onclick="showNewsDetail(${item.id});document.querySelector('div[style*=\\'position: fixed\\']')?.remove();">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="font-weight:600;font-size:14px;">${item.title}</span>
+                            <span style="background:${item.badgeColor};color:#fff;padding:2px 12px;border-radius:12px;font-size:11px;">
+                                ${item.badge}
+                            </span>
+                        </div>
+                        <div style="font-size:13px;color:#718096;margin-top:4px;">
+                            ${item.date} - ${item.source}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        showModal('📰 All News & Events', content);
+    }
+
+    /**
+     * Submit new news
+     */
+    function suggestNews() {
+        const content = `
+            <div style="text-align:right;">
+                <p style="color:#718096;margin-bottom:16px;">
+                    If you know of a news or event in the field of glioma, please share it with us.
+                </p>
+                <form onsubmit="event.preventDefault();submitNewsSuggestion();">
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">News Title:</label>
+                        <input type="text" id="newsTitle" placeholder="Enter the title" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">Description:</label>
+                        <textarea id="newsDescription" rows="3" placeholder="Full description of the news..." style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                            resize:vertical;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">Source:</label>
+                        <input type="text" id="newsSource" placeholder="Name of the news source" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <button type="submit" style="
+                        width:100%;
+                        background:linear-gradient(135deg,#667eea,#764ba2);
+                        color:#fff;
+                        border:none;
+                        padding:12px;
+                        border-radius:12px;
+                        font-size:16px;
+                        font-weight:600;
+                        cursor:pointer;
+                        font-family:'Vazir',sans-serif;
+                        transition:all 0.3s;
+                    " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-paper-plane"></i> Submit News
+                    </button>
+                </form>
+            </div>
+        `;
+
+        showModal('📰 Submit News', content);
+    }
+
+    /**
+     * Submit news suggestion (simulation)
+     */
+    function submitNewsSuggestion() {
+        const title = document.getElementById('newsTitle')?.value.trim();
+        const description = document.getElementById('newsDescription')?.value.trim();
+        const source = document.getElementById('newsSource')?.value.trim();
+
+        if (!title) {
+            alert('❌ Please enter the news title.');
+            return;
+        }
+
+        // Close modal
+        const modal = document.querySelector('div[style*="position: fixed"]');
+        if (modal) modal.remove();
+
+        // Add to list
+        const newNews = {
+            id: newsData.length + 1,
+            type: 'User Suggestion',
+            badge: 'New',
+            badgeColor: '#667eea',
+            title: title,
+            description: description || 'No description provided',
+            date: new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }),
+            link: '#',
+            source: source || 'GliomaHub User'
+        };
+
+        newsData.unshift(newNews);
+        renderNews(newsData);
+
+        alert(`✅ "${title}" has been successfully submitted!\n\nAfter review, it will be displayed on the news page.`);
+    }
+
+    // ============================================================
+    // 🚀 Initial Load
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderNews(newsData);
+    });
+</script>

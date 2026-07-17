@@ -1,0 +1,234 @@
+<!-- ============================================================
+     🤖 AI ASSISTANT (English)
+     ============================================================ -->
+
+<link rel="stylesheet" href="../css/style.css" />
+<section class="ai-assistant" id="ai-assistant">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-robot" style="color:#667eea;"></i>
+                Glioma AI Assistant
+            </h2>
+            <p>
+                Powered by 180 specialized articles | Answers with source and contributor attribution
+            </p>
+        </div>
+
+        <!-- Search Box -->
+        <div class="ai-search-box">
+            <input 
+                type="text" 
+                id="aiQuery" 
+                placeholder="Ask your question about glioma..."
+                onkeydown="if(event.key==='Enter') submitAIQuery()"
+            />
+            <div class="search-actions">
+                <button class="btn-upload" onclick="uploadArticle()">
+                    <i class="fas fa-upload"></i>
+                </button>
+                <button class="btn-search" onclick="submitAIQuery()">
+                    <i class="fas fa-paper-plane"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Questions -->
+        <div class="ai-quick-questions">
+            <span class="q-badge" onclick="quickQuestion('What are the latest epigenetic drugs for glioma?')">
+                <i class="fas fa-flask"></i> Epigenetic Drugs
+            </span>
+            <span class="q-badge" onclick="quickQuestion('What is the role of IDH1 gene in glioma?')">
+                <i class="fas fa-dna"></i> IDH1 Gene
+            </span>
+            <span class="q-badge" onclick="quickQuestion('What are the novel glioma treatments in 2026?')">
+                <i class="fas fa-syringe"></i> Novel Treatments
+            </span>
+            <span class="q-badge" onclick="quickQuestion('Latest articles on MGMT methylation')">
+                <i class="fas fa-microscope"></i> MGMT Methylation
+            </span>
+            <span class="q-badge" onclick="quickQuestion('PI3K/AKT pathway in glioma')">
+                <i class="fas fa-project-diagram"></i> PI3K/AKT Pathway
+            </span>
+        </div>
+
+        <!-- Response Box -->
+        <div class="ai-response" id="aiResponse" style="display:none;">
+            <div class="response-header">
+                <i class="fas fa-robot"></i>
+                <span>AI Response</span>
+                <span class="response-badge" id="responseSource">📄 Source: Article 145</span>
+            </div>
+            <div class="response-body" id="responseBody">
+                <!-- Response displayed here -->
+            </div>
+            <div class="response-footer">
+                <span id="responseContributor">
+                    <i class="fas fa-user-edit"></i> Contributor: Dr. Ahmadi
+                </span>
+                <button class="btn-like" onclick="likeResponse()">
+                    <i class="fas fa-thumbs-up"></i> Helpful
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 AI Assistant Scripts
+     ============================================================ -->
+
+<script>
+    /**
+     * Submit question to AI Assistant
+     */
+    function submitAIQuery() {
+        const query = document.getElementById('aiQuery').value.trim();
+        
+        if (!query) {
+            alert('Please enter a question.');
+            return;
+        }
+
+        // Show loading status
+        const responseBox = document.getElementById('aiResponse');
+        const body = document.getElementById('responseBody');
+        
+        responseBox.style.display = 'block';
+        body.innerHTML = `
+            <div style="text-align:center;padding:20px;">
+                <i class="fas fa-spinner fa-spin" style="font-size:32px;color:#667eea;"></i>
+                <p style="margin-top:12px;color:#718096;">Processing your question...</p>
+            </div>
+        `;
+
+        // Simulate server request (1.5 second delay)
+        setTimeout(() => {
+            const mockResponse = getMockResponse(query);
+            
+            document.getElementById('responseSource').innerHTML = 
+                `📄 Source: ${mockResponse.source}`;
+            
+            document.getElementById('responseContributor').innerHTML = 
+                `<i class="fas fa-user-edit"></i> Contributor: ${mockResponse.contributor}`;
+            
+            body.innerHTML = `
+                <div style="background:#f7fafc;padding:20px;border-radius:16px;">
+                    <p style="font-size:16px;line-height:2;">${mockResponse.answer}</p>
+                </div>
+                <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:13px;color:#4a3f5c;">
+                        <i class="fas fa-calendar-alt"></i> ${mockResponse.year}
+                    </span>
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:13px;color:#4a3f5c;">
+                        <i class="fas fa-book"></i> ${mockResponse.journal}
+                    </span>
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:13px;color:#4a3f5c;">
+                        <i class="fas fa-tag"></i> ${mockResponse.tags}
+                    </span>
+                </div>
+            `;
+            
+        }, 1500);
+    }
+
+    /**
+     * Mock responses (simulation)
+     */
+    function getMockResponse(query) {
+        const responses = [
+            {
+                keywords: ['epigenetic', 'drug', 'treatment'],
+                answer: 'Based on the article "Epigenetic Therapies in Glioma: A Comprehensive Review" (Nature Reviews Neurology, 2025), the latest epigenetic drugs include Vorinostat, Panobinostat, and Tazemetostat. Phase 2 studies have shown that combining these drugs with Temozolomide can increase survival in IDH-mutant patients by up to 40%.',
+                source: 'Nature Reviews Neurology, 2025',
+                contributor: 'Dr. Reza Ghaffari and colleagues',
+                year: '2025',
+                journal: 'Nature Reviews Neurology',
+                tags: 'Epigenetics, Drug Therapy, Clinical Trial'
+            },
+            {
+                keywords: ['IDH1', 'gene', 'mutation'],
+                answer: 'According to the article "IDH1 Mutations in Glioma: From Bench to Bedside" (Journal of Clinical Oncology, 2024), IDH1 gene mutations are found in approximately 70% of grade 2 and 3 gliomas and about 80% of secondary glioblastomas. This mutation leads to the production of 2-HG, causing histone methylation and epigenetic changes.',
+                source: 'Journal of Clinical Oncology, 2024',
+                contributor: 'Dr. Ali Jabbari and research team',
+                year: '2024',
+                journal: 'Journal of Clinical Oncology',
+                tags: 'IDH1, Genomics, Methylation'
+            },
+            {
+                keywords: ['novel', 'treatment', '2026', 'therapy'],
+                answer: 'Based on the latest articles, novel glioma treatments in 2026 include: 1- Immunotherapy with CAR-T cells targeting EGFRvIII, 2- PARP inhibitors in combination with Temozolomide, 3- Nanoparticle drug carriers for crossing the BBB, 4- Personalized vaccines based on neoantigens.',
+                source: 'Lancet Oncology, 2026 (Early Release)',
+                contributor: 'Dr. Sara Mohammadi and international colleagues',
+                year: '2026',
+                journal: 'Lancet Oncology',
+                tags: 'Novel Therapies, Immunotherapy, Nanotechnology'
+            },
+            {
+                keywords: ['MGMT', 'methylation'],
+                answer: 'Recent studies on MGMT methylation in glioma have shown that methylation of the MGMT promoter is a strong predictive biomarker for response to temozolomide. Patients with MGMT methylation have significantly better outcomes with alkylating agent therapy. Current research focuses on non-invasive detection methods using liquid biopsy.',
+                source: 'Neuro-Oncology, 2025',
+                contributor: 'Dr. Maryam Rezaei and team',
+                year: '2025',
+                journal: 'Neuro-Oncology',
+                tags: 'MGMT, Methylation, Biomarker, Temozolomide'
+            },
+            {
+                keywords: ['PI3K', 'AKT', 'pathway'],
+                answer: 'The PI3K/AKT/mTOR pathway is one of the most frequently dysregulated signaling pathways in glioma. It is activated in over 80% of glioblastomas through various mechanisms including PTEN loss, EGFR amplification, and PI3KCA mutations. Targeting this pathway with PI3K and mTOR inhibitors is currently under investigation in clinical trials.',
+                source: 'Cancer Cell, 2024',
+                contributor: 'Dr. Hassan Karimi and international collaborators',
+                year: '2024',
+                journal: 'Cancer Cell',
+                tags: 'PI3K/AKT, Signaling Pathway, Targeted Therapy'
+            }
+        ];
+
+        // Find the best match based on keywords
+        const lowerQuery = query.toLowerCase();
+        let bestMatch = responses[0];
+        let bestScore = 0;
+
+        responses.forEach(resp => {
+            let score = 0;
+            resp.keywords.forEach(kw => {
+                if (lowerQuery.includes(kw)) score += 2;
+                if (lowerQuery.includes(kw.replace(' ', ''))) score += 1;
+            });
+            if (score > bestScore) {
+                bestScore = score;
+                bestMatch = resp;
+            }
+        });
+
+        return bestMatch;
+    }
+
+    /**
+     * Quick question (click on badges)
+     */
+    function quickQuestion(text) {
+        document.getElementById('aiQuery').value = text;
+        submitAIQuery();
+    }
+
+    /**
+     * Upload new article
+     */
+    function uploadArticle() {
+        alert('📤 Article upload feature coming soon.\n' +
+              'You can submit new articles to add to the knowledge base.');
+    }
+
+    /**
+     * Like the response
+     */
+    function likeResponse() {
+        const btn = document.querySelector('.btn-like');
+        btn.innerHTML = '<i class="fas fa-check"></i> Thanked!';
+        btn.style.background = '#48bb78';
+        btn.style.color = '#fff';
+        btn.disabled = true;
+    }
+</script>

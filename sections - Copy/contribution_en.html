@@ -1,0 +1,498 @@
+<!-- ============================================================
+     📝 CONTRIBUTION - Research Contributions
+     ============================================================ -->
+
+<link rel="stylesheet" href="../css/style.css" />
+<section class="contribution" id="contribution">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-users" style="color:#667eea;"></i>
+                Research Contributions
+            </h2>
+            <p>
+                Latest contributions from researchers to the Glioma Knowledge Base
+                <br />
+                <span style="font-size:14px;color:#a0aec0;">
+                    Each contribution is added to the language model and displayed with the contributor's name
+                </span>
+            </p>
+        </div>
+
+        <!-- Contribution Statistics -->
+        <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:32px;">
+            <div style="text-align:center;background:#f7fafc;padding:12px 24px;border-radius:16px;min-width:120px;">
+                <div style="font-size:28px;font-weight:800;color:#667eea;" id="totalContributions">147</div>
+                <div style="font-size:13px;color:#718096;">Total Contributions</div>
+            </div>
+            <div style="text-align:center;background:#f7fafc;padding:12px 24px;border-radius:16px;min-width:120px;">
+                <div style="font-size:28px;font-weight:800;color:#48bb78;" id="activeContributors">68</div>
+                <div style="font-size:13px;color:#718096;">Active Researchers</div>
+            </div>
+            <div style="text-align:center;background:#f7fafc;padding:12px 24px;border-radius:16px;min-width:120px;">
+                <div style="font-size:28px;font-weight:800;color:#ed8936;" id="todayContributions">5</div>
+                <div style="font-size:13px;color:#718096;">Today's Contributions</div>
+            </div>
+        </div>
+
+        <!-- Contributions List -->
+        <div class="contribution-feed" id="contributionFeed">
+            <!-- Contributions are built by JavaScript -->
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="text-align:center;margin-top:32px;">
+            <button class="btn-primary" onclick="openContributionForm()">
+                <i class="fas fa-plus-circle"></i> Submit New Article/Study
+            </button>
+            <button class="btn-outline" style="margin-right:12px;" onclick="showTopContributors()">
+                <i class="fas fa-trophy"></i> View Top Contributors
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 Contribution Scripts
+     ============================================================ -->
+
+<script>
+    // ============================================================
+    // 📊 Contributions Data
+    // ============================================================
+
+    const contributionsData = [
+        {
+            id: 1,
+            name: "Dr. Reza Ghaffari",
+            initials: "RG",
+            type: "New Article",
+            title: "Pancreatic Tumors Hijack Genes Involved in Learning, Memory, and Hope",
+            category: "Genomics",
+            date: "2025-07-26",
+            status: "approved",
+            description: "GEO-based transcriptomic analysis focusing on pancreatic tumors"
+        },
+        {
+            id: 2,
+            name: "Dr. Ali Jabbari",
+            initials: "AJ",
+            type: "Update",
+            title: "Classification of PI3K Pathway Genes in Glioblastoma",
+            category: "Artificial Intelligence",
+            date: "2025-07-25",
+            status: "approved",
+            description: "Using SVM and Ensemble methods for PI3K pathway gene classification"
+        },
+        {
+            id: 3,
+            name: "Dr. Sara Mohammadi",
+            initials: "SM",
+            type: "New Article",
+            title: "Structural Analysis of Ion Channel Genes Using Genomic Signals",
+            category: "Bioinformatics",
+            date: "2025-07-24",
+            status: "pending",
+            description: "Analyzing structural similarities in ion channel genes using genomic signal approach"
+        },
+        {
+            id: 4,
+            name: "Dr. Hossein Rezaei",
+            initials: "HR",
+            type: "New Center",
+            title: "Adding Tehran University Medical School Cancer Center",
+            category: "Cancer Centers",
+            date: "2025-07-23",
+            status: "approved",
+            description: "Complete information of Imam Khomeini Cancer Center added to the directory"
+        },
+        {
+            id: 5,
+            name: "Dr. Neda Karimi",
+            initials: "NK",
+            type: "Update",
+            title: "Update on Glioma Epigenetic Drugs",
+            category: "Drug Therapy",
+            date: "2025-07-22",
+            status: "approved",
+            description: "Added new information about Vorinostat and Panobinostat drugs"
+        },
+        {
+            id: 6,
+            name: "Dr. Mohammad Javad Hosseini",
+            initials: "MH",
+            type: "New Article",
+            title: "Predicting Clinical Outcomes of Dengue Virus with ML",
+            category: "Artificial Intelligence",
+            date: "2025-07-21",
+            status: "pending",
+            description: "Using genomic structural features and machine learning algorithms"
+        },
+        {
+            id: 7,
+            name: "Dr. Fatemeh Abedi",
+            initials: "FA",
+            type: "New Article",
+            title: "Classification of ssRNA Viruses Using Genomic Features",
+            category: "Bioinformatics",
+            date: "2025-07-20",
+            status: "approved",
+            description: "Analysis of clinical distribution between +ssRNA and -ssRNA groups"
+        }
+    ];
+
+    // ============================================================
+    // 🎯 Contribution Functions
+    // ============================================================
+
+    let currentContributions = [...contributionsData];
+
+    /**
+     * Render contributions
+     */
+    function renderContributions(contributions) {
+        const feed = document.getElementById('contributionFeed');
+        
+        if (!contributions || contributions.length === 0) {
+            feed.innerHTML = `
+                <div style="text-align:center;padding:40px;background:#f7fafc;border-radius:16px;">
+                    <i class="fas fa-inbox" style="font-size:40px;color:#a0aec0;display:block;margin-bottom:12px;"></i>
+                    <p style="color:#718096;">No contributions found.</p>
+                </div>
+            `;
+            return;
+        }
+
+        feed.innerHTML = contributions.map(contrib => `
+            <div class="contribution-item" style="border-right-color: ${contrib.status === 'approved' ? '#48bb78' : '#ed8936'}">
+                <div class="avatar">${contrib.initials}</div>
+                <div class="info">
+                    <div class="name">
+                        ${contrib.name}
+                        <span style="font-size:12px;font-weight:400;color:#a0aec0;margin-right:8px;">
+                            ${contrib.date}
+                        </span>
+                    </div>
+                    <div class="desc">
+                        <span style="
+                            background: ${contrib.type === 'New Article' ? '#667eea' : contrib.type === 'Update' ? '#48bb78' : '#ed8936'};
+                            color:#fff;
+                            padding:1px 12px;
+                            border-radius:12px;
+                            font-size:11px;
+                            display:inline-block;
+                            margin-left:8px;
+                        ">${contrib.type}</span>
+                        <strong>${contrib.title}</strong>
+                        <span style="
+                            background:#edf2f7;
+                            padding:1px 12px;
+                            border-radius:12px;
+                            font-size:11px;
+                            color:#4a3f5c;
+                            margin-right:8px;
+                        ">${contrib.category}</span>
+                    </div>
+                    <div style="font-size:13px;color:#718096;margin-top:4px;">
+                        ${contrib.description}
+                        <span style="
+                            display:inline-block;
+                            margin-right:12px;
+                            font-size:12px;
+                            color: ${contrib.status === 'approved' ? '#48bb78' : '#ed8936'};
+                        ">
+                            <i class="fas fa-${contrib.status === 'approved' ? 'check-circle' : 'clock'}"></i>
+                            ${contrib.status === 'approved' ? 'Approved' : 'Pending Review'}
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <button onclick="showContributionDetail(${contrib.id})" style="
+                        background:transparent;
+                        border:1px solid #667eea;
+                        color:#667eea;
+                        padding:4px 16px;
+                        border-radius:20px;
+                        font-size:13px;
+                        cursor:pointer;
+                        transition:all 0.3s;
+                        font-family:'Vazir',sans-serif;
+                    " onmouseover="this.style.background='#667eea';this.style.color='#fff'" 
+                       onmouseout="this.style.background='transparent';this.style.color='#667eea'">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    /**
+     * Show contribution details
+     */
+    function showContributionDetail(id) {
+        const contrib = contributionsData.find(c => c.id === id);
+        if (!contrib) return;
+
+        const content = `
+            <div style="text-align:right;">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                    <div style="
+                        width:48px;height:48px;border-radius:50%;
+                        background:linear-gradient(135deg,#667eea,#764ba2);
+                        display:flex;align-items:center;justify-content:center;
+                        color:#fff;font-weight:700;font-size:18px;
+                    ">${contrib.initials}</div>
+                    <div>
+                        <h3 style="font-size:18px;">${contrib.name}</h3>
+                        <p style="color:#718096;font-size:14px;">${contrib.date}</p>
+                    </div>
+                </div>
+                
+                <div style="background:#f7fafc;padding:16px;border-radius:12px;margin-bottom:16px;">
+                    <h4 style="font-size:16px;">${contrib.title}</h4>
+                    <p style="color:#718096;font-size:14px;margin-top:8px;">${contrib.description}</p>
+                </div>
+                
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:14px;">
+                        <i class="fas fa-tag"></i> ${contrib.category}
+                    </span>
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:14px;">
+                        <i class="fas fa-file-alt"></i> ${contrib.type}
+                    </span>
+                    <span style="background:${contrib.status === 'approved' ? '#48bb78' : '#ed8936'};color:#fff;padding:4px 16px;border-radius:20px;font-size:14px;">
+                        <i class="fas fa-${contrib.status === 'approved' ? 'check' : 'clock'}"></i>
+                        ${contrib.status === 'approved' ? 'Approved' : 'Pending Review'}
+                    </span>
+                </div>
+                
+                <div style="margin-top:16px;padding-top:16px;border-top:1px solid #edf2f7;">
+                    <p style="font-size:13px;color:#a0aec0;">
+                        <i class="fas fa-info-circle"></i>
+                        This contribution has been added to the Glioma language model and will be displayed with the contributor's name in responses.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        showModal(`📝 ${contrib.type} - ${contrib.category}`, content);
+    }
+
+    /**
+     * Open contribution form
+     */
+    function openContributionForm() {
+        const content = `
+            <div style="text-align:right;">
+                <p style="color:#718096;margin-bottom:16px;">
+                    By submitting a new article or study, you help expand the Glioma Knowledge Base.
+                    Your information will be displayed with your name in the language model responses.
+                </p>
+                <form onsubmit="event.preventDefault();submitContribution();">
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">Contribution Type:</label>
+                        <select id="contribType" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                            <option value="New Article">📄 New Article</option>
+                            <option value="Update">🔄 Update Existing Article</option>
+                            <option value="New Center">🏥 New Center</option>
+                            <option value="New Tool">🛠️ New Tool</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">Title:</label>
+                        <input type="text" id="contribTitle" placeholder="Article or study title" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">Category:</label>
+                        <select id="contribCategory" style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                            <option value="Genomics">🧬 Genomics & Biology</option>
+                            <option value="Drug Therapy">💊 Drug Therapy</option>
+                            <option value="Artificial Intelligence">🤖 Artificial Intelligence</option>
+                            <option value="Bioinformatics">📊 Bioinformatics</option>
+                            <option value="Cancer Centers">🏥 Cancer Centers</option>
+                            <option value="Epigenetics">🧬 Epigenetics</option>
+                            <option value="Imaging">🖼️ Imaging</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">Description:</label>
+                        <textarea id="contribDescription" rows="3" placeholder="Full description of the contribution..." style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                            resize:vertical;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+                    </div>
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">Article Link (Optional):</label>
+                        <input type="url" id="contribLink" placeholder="https://..." style="
+                            width:100%;
+                            padding:10px 16px;
+                            border:2px solid #e2e8f0;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-family:'Vazir',sans-serif;
+                            outline:none;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    <button type="submit" style="
+                        width:100%;
+                        background:linear-gradient(135deg,#667eea,#764ba2);
+                        color:#fff;
+                        border:none;
+                        padding:12px;
+                        border-radius:12px;
+                        font-size:16px;
+                        font-weight:600;
+                        cursor:pointer;
+                        font-family:'Vazir',sans-serif;
+                        transition:all 0.3s;
+                    " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-paper-plane"></i> Submit Contribution
+                    </button>
+                </form>
+            </div>
+        `;
+
+        showModal('➕ Submit New Contribution', content);
+    }
+
+    /**
+     * Submit contribution (simulation)
+     */
+    function submitContribution() {
+        const type = document.getElementById('contribType')?.value;
+        const title = document.getElementById('contribTitle')?.value.trim();
+        const category = document.getElementById('contribCategory')?.value;
+        const description = document.getElementById('contribDescription')?.value.trim();
+
+        if (!title) {
+            alert('❌ Please enter a title.');
+            return;
+        }
+
+        if (!description) {
+            alert('❌ Please enter a description.');
+            return;
+        }
+
+        // Close modal
+        const modal = document.querySelector('div[style*="position: fixed"]');
+        if (modal) modal.remove();
+
+        // Add to list
+        const newContrib = {
+            id: contributionsData.length + 1,
+            name: "You (Guest User)",
+            initials: "GU",
+            type: type || "New Article",
+            title: title,
+            category: category || "Other",
+            date: new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }),
+            status: "pending",
+            description: description
+        };
+
+        contributionsData.unshift(newContrib);
+        renderContributions(contributionsData);
+
+        alert(`✅ "${title}" has been successfully submitted!\n\nAfter review, it will be added to the language model and displayed with your name in responses.`);
+    }
+
+    /**
+     * Show top contributors
+     */
+    function showTopContributors() {
+        // Calculate contribution count per person
+        const counts = {};
+        contributionsData.forEach(c => {
+            counts[c.name] = (counts[c.name] || 0) + 1;
+        });
+
+        const sorted = Object.entries(counts)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5);
+
+        const content = `
+            <div style="text-align:right;">
+                <h3 style="font-size:20px;margin-bottom:16px;">🏆 Top Contributors</h3>
+                ${sorted.map(([name, count], index) => `
+                    <div style="
+                        display:flex;align-items:center;gap:16px;
+                        padding:12px 16px;
+                        background:${index === 0 ? 'linear-gradient(135deg,#f6d365,#fda085)' : '#f7fafc'};
+                        border-radius:12px;
+                        margin-bottom:8px;
+                        border:${index === 0 ? '2px solid #f6d365' : 'none'};
+                    ">
+                        <span style="
+                            font-size:24px;
+                            font-weight:800;
+                            width:40px;
+                            text-align:center;
+                            color:${index === 0 ? '#e67e22' : '#a0aec0'};
+                        ">#${index + 1}</span>
+                        <span style="flex:1;font-weight:600;">${name}</span>
+                        <span style="
+                            background:#667eea;
+                            color:#fff;
+                            padding:2px 16px;
+                            border-radius:20px;
+                            font-size:14px;
+                        ">${count} Contributions</span>
+                    </div>
+                `).join('')}
+                
+                <div style="margin-top:16px;padding-top:16px;border-top:1px solid #edf2f7;">
+                    <p style="font-size:13px;color:#a0aec0;">
+                        <i class="fas fa-info-circle"></i>
+                        Top contributors are displayed on the home page and in the language model responses.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        showModal('🏆 Top Contributors', content);
+    }
+
+    // ============================================================
+    // 🚀 Initial Load
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderContributions(contributionsData);
+    });
+</script>
