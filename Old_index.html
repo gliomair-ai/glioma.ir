@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>glioma.ir | خوش آمدید</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0e1a 0%, #1a1f35 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            padding: 60px 50px;
+            max-width: 780px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.01);
+        }
+
+        .logo {
+            font-size: 80px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .logo-sub {
+            font-size: 18px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 6px;
+            margin-bottom: 35px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #fcd34d, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 16px 38px;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            color: #fff;
+            border: none;
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 40px rgba(124, 58, 237, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .footer {
+            margin-top: 45px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.25);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 30px;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #a78bfa;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 24px;
+            }
+            .logo {
+                font-size: 56px;
+            }
+            h1 {
+                font-size: 30px;
+            }
+            .subtitle {
+                font-size: 17px;
+            }
+            .btn {
+                padding: 14px 28px;
+                font-size: 16px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- لوگو / نام سایت -->
+        <div class="logo">glioma</div>
+        <span class="logo-sub">.ir</span>
+
+        <!-- پیام خوش‌آمدگویی -->
+        <h1>
+            به <span>glioma.ir</span> خوش آمدید
+        </h1>
+
+        <p class="subtitle">
+            دانش، آگاهی و امید — همراه شما در مسیر<br>
+            مقابله با گلیوما و تومورهای مغزی
+        </p>
+
+        <!-- دکمه‌های اقدام -->
+        <div class="btn-group">
+            <a href="#" class="btn btn-primary">ورود به سایت</a>
+            <a href="#" class="btn btn-secondary">درباره ما</a>
+            <a href="#" class="btn btn-secondary">تماس با ما</a>
+        </div>
+
+        <!-- فوتر با لینک گیت‌هاب -->
+        <div class="footer">
+            <span>🌐 میزبان روی </span>
+            <a href="https://github.com" target="_blank">GitHub Pages</a>
+            <span> • </span>
+            <a href="#">گزارش مشکل</a>
+        </div>
+    </div>
+
+</body>
+</html>

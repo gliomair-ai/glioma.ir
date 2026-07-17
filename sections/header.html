@@ -1,0 +1,58 @@
+<!-- ============================================================
+     🧭 HEADER / NAVBAR
+     ============================================================ -->
+
+<nav class="navbar">
+    <div class="container">
+        <!-- لوگو -->
+        <a href="#" class="logo">
+            <i class="fas fa-brain"></i>
+            <span>Glioma<span style="color:#667eea;">Hub</span></span>
+        </a>
+
+        <!-- منوی اصلی -->
+        <ul class="nav-links">
+            <li><a href="#"><i class="fas fa-home"></i> خانه</a></li>
+            <li><a href="#"><i class="fas fa-robot"></i> دستیار AI</a></li>
+            <li><a href="#"><i class="fas fa-book"></i> مقالات</a></li>
+            <li><a href="#"><i class="fas fa-hospital"></i> مراکز</a></li>
+            <li><a href="#"><i class="fas fa-tools"></i> ابزارها</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> مشارکت</a></li>
+        </ul>
+
+        <!-- اقدامات سمت راست -->
+        <div class="nav-actions">
+            <button class="lang-toggle" onclick="toggleLanguage()">
+                <i class="fas fa-globe"></i> EN
+            </button>
+            <button class="btn-login" onclick="showLogin()">
+                <i class="fas fa-user"></i> ورود
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ============================================================
+     🎯 اسکریپت‌های مربوط به هدر
+     ============================================================ -->
+
+<script>
+    // تغییر زبان
+    function toggleLanguage() {
+        const btn = document.querySelector('.lang-toggle');
+        if (btn.innerText.includes('EN')) {
+            btn.innerHTML = '<i class="fas fa-globe"></i> FA';
+            document.documentElement.lang = 'en';
+            document.documentElement.dir = 'ltr';
+        } else {
+            btn.innerHTML = '<i class="fas fa-globe"></i> EN';
+            document.documentElement.lang = 'fa';
+            document.documentElement.dir = 'rtl';
+        }
+    }
+
+    // نمایش مودال ورود (نمونه)
+    function showLogin() {
+        alert('🔐 صفحه ورود به زودی اضافه می‌شود!');
+    }
+</script>

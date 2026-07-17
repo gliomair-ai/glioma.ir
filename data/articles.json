@@ -1,0 +1,37 @@
+{
+  "categories": [
+    {
+      "id": "genomics",
+      "icon": "🧬",
+      "name": "ژنومیک و بیولوژی مولکولی",
+      "count": 45,
+      "articles": [
+        {
+          "title": "IDH1 Mutations in Glioma: From Bench to Bedside",
+          "journal": "Journal of Clinical Oncology",
+          "year": 2024,
+          "authors": ["Ghaffari R.", "JahanBakhshi A."],
+          "doi": "10.1200/JCO.2024.12345"
+        }
+      ]
+    },
+    {
+      "id": "drugs",
+      "icon": "💊",
+      "name": "دارو درمانی و کشف دارو",
+      "count": 38
+    },
+    {
+      "id": "imaging",
+      "icon": "🖼️",
+      "name": "تصویربرداری و رادیومیکس",
+      "count": 22
+    },
+    {
+      "id": "ai",
+      "icon": "🤖",
+      "name": "هوش مصنوعی و یادگیری ماشین",
+      "count": 35
+    }
+  ]
+}

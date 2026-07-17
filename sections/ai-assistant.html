@@ -1,0 +1,215 @@
+<!-- ============================================================
+     🤖 AI ASSISTANT
+     ============================================================ -->
+
+<section class="ai-assistant" id="ai-assistant">
+    <div class="container">
+        <!-- هدر بخش -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-robot" style="color:#667eea;"></i>
+                دستیار هوشمند گلیوما
+            </h2>
+            <p>
+                مبتنی بر ۱۸۰ مقاله تخصصی | پاسخ با ذکر منبع و مشخصات ارسال‌کننده
+            </p>
+        </div>
+
+        <!-- جعبه جستجو -->
+        <div class="ai-search-box">
+            <input 
+                type="text" 
+                id="aiQuery" 
+                placeholder="سوال خود را درباره گلیوما بپرسید..."
+                onkeydown="if(event.key==='Enter') submitAIQuery()"
+            />
+            <div class="search-actions">
+                <button class="btn-upload" onclick="uploadArticle()">
+                    <i class="fas fa-upload"></i>
+                </button>
+                <button class="btn-search" onclick="submitAIQuery()">
+                    <i class="fas fa-paper-plane"></i> جستجو
+                </button>
+            </div>
+        </div>
+
+        <!-- سوالات پیشنهادی -->
+        <div class="ai-quick-questions">
+            <span class="q-badge" onclick="quickQuestion('جدیدترین داروهای اپی‌ژنتیک گلیوما چیست؟')">
+                <i class="fas fa-flask"></i> داروهای اپی‌ژنتیک
+            </span>
+            <span class="q-badge" onclick="quickQuestion('نقش ژن IDH1 در گلیوما چیست؟')">
+                <i class="fas fa-dna"></i> ژن IDH1
+            </span>
+            <span class="q-badge" onclick="quickQuestion('درمان‌های نوین گلیوما در ۲۰۲۶')">
+                <i class="fas fa-syringe"></i> درمان‌های نوین
+            </span>
+            <span class="q-badge" onclick="quickQuestion('آخرین مقالات در مورد MGMT methylation')">
+                <i class="fas fa-microscope"></i> MGMT methylation
+            </span>
+            <span class="q-badge" onclick="quickQuestion('مسیر PI3K/AKT در گلیوما')">
+                <i class="fas fa-project-diagram"></i> مسیر PI3K/AKT
+            </span>
+        </div>
+
+        <!-- جعبه پاسخ -->
+        <div class="ai-response" id="aiResponse" style="display:none;">
+            <div class="response-header">
+                <i class="fas fa-robot"></i>
+                <span>پاسخ هوش مصنوعی</span>
+                <span class="response-badge" id="responseSource">📄 منبع: مقاله ۱۴۵</span>
+            </div>
+            <div class="response-body" id="responseBody">
+                <!-- پاسخ در اینجا نمایش داده می‌شود -->
+            </div>
+            <div class="response-footer">
+                <span id="responseContributor">
+                    <i class="fas fa-user-edit"></i> ارسال‌کننده: دکتر احمدی
+                </span>
+                <button class="btn-like" onclick="likeResponse()">
+                    <i class="fas fa-thumbs-up"></i> مفید بود
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 اسکریپت‌های مربوط به AI Assistant
+     ============================================================ -->
+
+<script>
+    /**
+     * ارسال سوال به دستیار هوشمند
+     */
+    function submitAIQuery() {
+        const query = document.getElementById('aiQuery').value.trim();
+        
+        if (!query) {
+            alert('لطفاً یک سوال وارد کنید.');
+            return;
+        }
+
+        // نمایش وضعیت بارگذاری
+        const responseBox = document.getElementById('aiResponse');
+        const body = document.getElementById('responseBody');
+        
+        responseBox.style.display = 'block';
+        body.innerHTML = `
+            <div style="text-align:center;padding:20px;">
+                <i class="fas fa-spinner fa-spin" style="font-size:32px;color:#667eea;"></i>
+                <p style="margin-top:12px;color:#718096;">در حال پردازش سوال شما...</p>
+            </div>
+        `;
+
+        // شبیه‌سازی درخواست به سرور (با تاخیر ۱.۵ ثانیه)
+        setTimeout(() => {
+            const mockResponse = getMockResponse(query);
+            
+            document.getElementById('responseSource').innerHTML = 
+                `📄 منبع: ${mockResponse.source}`;
+            
+            document.getElementById('responseContributor').innerHTML = 
+                `<i class="fas fa-user-edit"></i> ارسال‌کننده: ${mockResponse.contributor}`;
+            
+            body.innerHTML = `
+                <div style="background:#f7fafc;padding:20px;border-radius:16px;">
+                    <p style="font-size:16px;line-height:2;">${mockResponse.answer}</p>
+                </div>
+                <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:13px;color:#4a3f5c;">
+                        <i class="fas fa-calendar-alt"></i> ${mockResponse.year}
+                    </span>
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:13px;color:#4a3f5c;">
+                        <i class="fas fa-book"></i> ${mockResponse.journal}
+                    </span>
+                    <span style="background:#edf2f7;padding:4px 16px;border-radius:20px;font-size:13px;color:#4a3f5c;">
+                        <i class="fas fa-tag"></i> ${mockResponse.tags}
+                    </span>
+                </div>
+            `;
+            
+        }, 1500);
+    }
+
+    /**
+     * پاسخ‌های نمونه (شبیه‌سازی)
+     */
+    function getMockResponse(query) {
+        const responses = [
+            {
+                keywords: ['دارو', 'اپی‌ژنتیک', 'درمان'],
+                answer: 'بر اساس مقاله "Epigenetic Therapies in Glioma: A Comprehensive Review" (Nature Reviews Neurology, 2025)، جدیدترین داروهای اپی‌ژنتیک شامل Vorinostat، Panobinostat و Tazemetostat هستند. مطالعات فاز ۲ نشان داده‌اند که ترکیب این داروها با Temozolomide می‌تواند بقای بیماران IDH-mutant را تا ۴۰٪ افزایش دهد.',
+                source: 'Nature Reviews Neurology, 2025',
+                contributor: 'دکتر رضا قفاری و همکاران',
+                year: '۲۰۲۵',
+                journal: 'Nature Reviews Neurology',
+                tags: 'اپی‌ژنتیک، دارو درمانی، کارآزمایی بالینی'
+            },
+            {
+                keywords: ['IDH1', 'ژن', 'موتاسیون'],
+                answer: 'بر اساس مقاله "IDH1 Mutations in Glioma: From Bench to Bedside" (Journal of Clinical Oncology, 2024)، جهش در ژن IDH1 در حدود ۷۰٪ از گلیوم‌های درجه ۲ و ۳ و حدود ۸۰٪ از گلیوبلاستوم‌های ثانویه دیده می‌شود. این جهش منجر به تولید ۲-HG شده و باعث متیلاسیون هیستون‌ها و تغییرات اپی‌ژنتیک می‌شود.',
+                source: 'Journal of Clinical Oncology, 2024',
+                contributor: 'دکتر علی ج‌باری و تیم پژوهشی',
+                year: '۲۰۲۴',
+                journal: 'Journal of Clinical Oncology',
+                tags: 'IDH1، ژنومیک، متیلاسیون'
+            },
+            {
+                keywords: ['درمان', 'نوین', '۲۰۲۶'],
+                answer: 'بر اساس جدیدترین مقالات، درمان‌های نوین گلیوما در سال ۲۰۲۶ شامل: ۱- ایمونوتراپی با CAR-T cells هدفمند EGFRvIII، ۲- داروهای مهارکننده PARP در ترکیب با Temozolomide، ۳- نانوذرات حامل دارو برای عبور از BBB، ۴- واکسن‌های شخصی‌سازی شده مبتنی بر نئوآنتی‌ژن‌ها.',
+                source: 'Lancet Oncology, 2026 (Early Release)',
+                contributor: 'دکتر سارا محمدی و همکاران بین‌المللی',
+                year: '۲۰۲۶',
+                journal: 'Lancet Oncology',
+                tags: 'درمان نوین، ایمونوتراپی، نانوتکنولوژی'
+            }
+        ];
+
+        // پیدا کردن بهترین پاسخ بر اساس کلمات کلیدی
+        const lowerQuery = query.toLowerCase();
+        let bestMatch = responses[0];
+        let bestScore = 0;
+
+        responses.forEach(resp => {
+            let score = 0;
+            resp.keywords.forEach(kw => {
+                if (lowerQuery.includes(kw)) score += 2;
+                if (lowerQuery.includes(kw.replace(' ', ''))) score += 1;
+            });
+            if (score > bestScore) {
+                bestScore = score;
+                bestMatch = resp;
+            }
+        });
+
+        return bestMatch;
+    }
+
+    /**
+     * سوال سریع (کلیک روی برچسب‌ها)
+     */
+    function quickQuestion(text) {
+        document.getElementById('aiQuery').value = text;
+        submitAIQuery();
+    }
+
+    /**
+     * بارگذاری مقاله جدید
+     */
+    function uploadArticle() {
+        alert('📤 قابلیت بارگذاری مقاله به زودی اضافه می‌شود.\n' +
+              'شما می‌توانید مقالات جدید را برای افزودن به دانشنامه ارسال کنید.');
+    }
+
+    /**
+     * پسندیدن پاسخ
+     */
+    function likeResponse() {
+        const btn = document.querySelector('.btn-like');
+        btn.innerHTML = '<i class="fas fa-check"></i> تشکر کردید!';
+        btn.style.background = '#48bb78';
+        btn.style.color = '#fff';
+        btn.disabled = true;
+    }
+</script>

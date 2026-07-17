@@ -1,0 +1,339 @@
+<!-- ============================================================
+     🛠️ RESEARCH TOOLS - ابزارهای پژوهشی
+     ============================================================ -->
+
+<section class="research-tools" id="research-tools">
+    <div class="container">
+        <!-- هدر بخش -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-tools" style="color:#667eea;"></i>
+                ابزارهای پژوهشی
+            </h2>
+            <p>
+                ابزارهای تحلیلی پیشرفته برای پژوهشگران گلیوما
+                <br />
+                <span style="font-size:14px;color:#a0aec0;">
+                    کاملاً رایگان برای کاربران ثبت‌نام شده
+                </span>
+            </p>
+        </div>
+
+        <!-- لیست ابزارها -->
+        <div class="tools-grid" id="toolsGrid">
+            <!-- توسط JavaScript ساخته می‌شود -->
+        </div>
+
+        <!-- توضیحات -->
+        <div style="max-width:800px;margin:32px auto 0;background:#fff;padding:24px;border-radius:16px;border:1px solid #edf2f7;">
+            <h4 style="font-size:16px;display:flex;align-items:center;gap:8px;">
+                <i class="fas fa-info-circle" style="color:#667eea;"></i>
+                درباره ابزارها
+            </h4>
+            <p style="font-size:14px;color:#718096;margin-top:8px;line-height:1.8;">
+                تمام ابزارهای پژوهشی GliomaHub با هدف تسهیل تحقیقات گلیوما طراحی شده‌اند.
+                برای استفاده از ابزارها، لطفاً <strong>ثبت‌نام</strong> کنید یا از دکمه <strong>ورود</strong> استفاده کنید.
+                <br />
+                <span style="font-size:13px;color:#a0aec0;">
+                    <i class="fas fa-shield-alt"></i> تمام داده‌ها به صورت ایمن و محرمانه پردازش می‌شوند.
+                </span>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     🎯 اسکریپت‌های مربوط به ابزارها
+     ============================================================ -->
+
+<script>
+    // ============================================================
+    // 📊 داده‌های ابزارها
+    // ============================================================
+
+    const toolsData = [
+        {
+            id: 'rnaseq',
+            icon: '📊',
+            name: 'RNA-Seq Analysis',
+            description: 'تحلیل بیان ژن و شناسایی ژن‌های دارای بیان متفاوت',
+            status: 'available',
+            color: '#667eea',
+            features: ['Differential Expression', 'PCA Analysis', 'Heatmap', 'GO Enrichment']
+        },
+        {
+            id: 'dna-visualization',
+            icon: '🧬',
+            name: 'DNA Visualization',
+            description: 'روش نوین تجسم داده‌های ژنومی با سیگنال‌های دیجیتال',
+            status: 'beta',
+            color: '#f093fb',
+            features: ['Genomic Signal Processing', '2D Visualization', 'Feature Extraction']
+        },
+        {
+            id: 'drug-docking',
+            icon: '💊',
+            name: 'Drug Docking',
+            description: 'شبیه‌سازی اتصال دارو به پروتئین‌های هدف در گلیوما',
+            status: 'coming',
+            color: '#48bb78',
+            features: ['Molecular Docking', 'Binding Affinity', 'Virtual Screening']
+        },
+        {
+            id: 'qsar',
+            icon: '📈',
+            name: 'QSAR Modeling',
+            description: 'مدل‌سازی کمی ساختار-فعالیت برای کشف داروهای جدید گلیوما',
+            status: 'coming',
+            color: '#ed8936',
+            features: ['Molecular Descriptors', 'Machine Learning', 'Activity Prediction']
+        },
+        {
+            id: 'pathway-analysis',
+            icon: '🔄',
+            name: 'Pathway Analysis',
+            description: 'تحلیل مسیرهای مولکولی و سیگنالینگ در گلیوما',
+            status: 'available',
+            color: '#4299e1',
+            features: ['KEGG Pathways', 'Gene Set Enrichment', 'Network Analysis']
+        },
+        {
+            id: 'survival',
+            icon: '📉',
+            name: 'Survival Prediction',
+            description: 'پیش‌بینی بقای بیماران گلیوما با استفاده از داده‌های ژنومی',
+            status: 'beta',
+            color: '#9f7aea',
+            features: ['Kaplan-Meier', 'Cox Regression', 'Risk Stratification']
+        }
+    ];
+
+    // ============================================================
+    // 🎯 توابع مربوط به ابزارها
+    // ============================================================
+
+    /**
+     * رندر کردن ابزارها
+     */
+    function renderTools(tools) {
+        const grid = document.getElementById('toolsGrid');
+        
+        grid.innerHTML = tools.map(tool => `
+            <div class="tool-card" onclick="openTool('${tool.id}')">
+                <span class="icon">${tool.icon}</span>
+                <h4>${tool.name}</h4>
+                <p>${tool.description}</p>
+                <div style="margin-top:8px;">
+                    <span style="
+                        background: ${tool.status === 'available' ? '#48bb78' : tool.status === 'beta' ? '#f6ad55' : '#a0aec0'};
+                        color:#fff;
+                        padding:2px 12px;
+                        border-radius:12px;
+                        font-size:11px;
+                        display:inline-block;
+                    ">
+                        ${tool.status === 'available' ? '✅ فعال' : tool.status === 'beta' ? '🧪 نسخه بتا' : '⏳ به زودی'}
+                    </span>
+                </div>
+                <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap;">
+                    ${tool.features.slice(0, 3).map(f => `
+                        <span style="
+                            background:#edf2f7;
+                            padding:1px 10px;
+                            border-radius:10px;
+                            font-size:10px;
+                            color:#4a3f5c;
+                        ">${f}</span>
+                    `).join('')}
+                    ${tool.features.length > 3 ? `<span style="font-size:10px;color:#a0aec0;">+${tool.features.length - 3}</span>` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    /**
+     * باز کردن یک ابزار
+     */
+    function openTool(toolId) {
+        const tool = toolsData.find(t => t.id === toolId);
+        if (!tool) return;
+
+        if (tool.status === 'coming') {
+            showModal('⏳ در دست توسعه', `
+                <div style="text-align:center;padding:20px 0;">
+                    <div style="font-size:48px;margin-bottom:16px;">${tool.icon}</div>
+                    <h3 style="font-size:20px;">${tool.name}</h3>
+                    <p style="color:#718096;margin:12px 0;">
+                        این ابزار به زودی در دسترس قرار می‌گیرد.
+                    </p>
+                    <div style="background:#edf2f7;padding:12px;border-radius:12px;text-align:right;">
+                        <strong style="color:#4a3f5c;">ویژگی‌های در حال توسعه:</strong>
+                        <ul style="list-style:none;padding:0;margin-top:8px;">
+                            ${tool.features.map(f => `<li style="padding:4px 0;">✅ ${f}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `);
+            return;
+        }
+
+        // برای ابزارهای فعال، نمایش فرم ورودی
+        const content = `
+            <div style="text-align:right;">
+                <h3 style="font-size:20px;display:flex;align-items:center;gap:8px;">
+                    <span>${tool.icon}</span>
+                    ${tool.name}
+                </h3>
+                <p style="color:#718096;margin:8px 0 16px;">${tool.description}</p>
+                
+                <form onsubmit="event.preventDefault();runTool('${tool.id}');">
+                    <div style="margin-bottom:12px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">
+                            <i class="fas fa-upload"></i> آپلود فایل داده:
+                        </label>
+                        <input type="file" id="toolFile" accept=".csv,.tsv,.txt,.xlsx" style="
+                            width:100%;
+                            padding:10px;
+                            border:2px dashed #e2e8f0;
+                            border-radius:12px;
+                            font-size:14px;
+                            font-family:'Vazir',sans-serif;
+                            cursor:pointer;
+                        " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                    </div>
+                    
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block;font-weight:600;margin-bottom:4px;">
+                            <i class="fas fa-sliders-h"></i> تنظیمات پیشرفته:
+                        </label>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                            <input type="text" placeholder="Threshold (مثلاً 0.05)" style="
+                                padding:8px 12px;
+                                border:2px solid #e2e8f0;
+                                border-radius:8px;
+                                font-size:14px;
+                                font-family:'Vazir',sans-serif;
+                                outline:none;
+                            " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                            <input type="text" placeholder="Normalization method" style="
+                                padding:8px 12px;
+                                border:2px solid #e2e8f0;
+                                border-radius:8px;
+                                font-size:14px;
+                                font-family:'Vazir',sans-serif;
+                                outline:none;
+                            " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" style="
+                        width:100%;
+                        background:linear-gradient(135deg,#667eea,#764ba2);
+                        color:#fff;
+                        border:none;
+                        padding:12px;
+                        border-radius:12px;
+                        font-size:16px;
+                        font-weight:600;
+                        cursor:pointer;
+                        font-family:'Vazir',sans-serif;
+                        transition:all 0.3s;
+                    " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <i class="fas fa-play"></i> اجرای تحلیل
+                    </button>
+                </form>
+                
+                <div style="margin-top:12px;padding:12px;background:#f7fafc;border-radius:12px;">
+                    <p style="font-size:13px;color:#a0aec0;">
+                        <i class="fas fa-info-circle"></i>
+                        برای دسترسی به تمام ابزارها، لطفاً <strong>ثبت‌نام</strong> کنید.
+                    </p>
+                </div>
+            </div>
+        `;
+
+        showModal(`🛠️ ${tool.name}`, content);
+    }
+
+    /**
+     * اجرای ابزار (شبیه‌سازی)
+     */
+    function runTool(toolId) {
+        const tool = toolsData.find(t => t.id === toolId);
+        if (!tool) return;
+
+        const file = document.getElementById('toolFile')?.files[0];
+        
+        // بستن مودال
+        const modal = document.querySelector('div[style*="position: fixed"]');
+        if (modal) modal.remove();
+
+        // نمایش نتیجه
+        setTimeout(() => {
+            const resultContent = `
+                <div style="text-align:right;">
+                    <h3 style="font-size:18px;display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                        <span>✅</span>
+                        تحلیل با موفقیت انجام شد
+                    </h3>
+                    
+                    <div style="background:#f0fff4;padding:16px;border-radius:12px;border:1px solid #c6f6d5;margin-bottom:16px;">
+                        <p style="color:#276749;font-weight:600;">
+                            <i class="fas fa-check-circle"></i>
+                            ابزار ${tool.name} با موفقیت اجرا شد.
+                        </p>
+                        ${file ? `<p style="font-size:13px;color:#718096;margin-top:4px;">فایل: ${file.name}</p>` : ''}
+                    </div>
+                    
+                    <div style="background:#f7fafc;padding:16px;border-radius:12px;margin-bottom:16px;">
+                        <h4 style="font-size:15px;">📊 خلاصه نتایج:</h4>
+                        <ul style="list-style:none;padding:0;margin-top:8px;">
+                            ${tool.features.map(f => `<li style="padding:4px 0;">✅ ${f} - انجام شد</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div style="display:flex;gap:12px;">
+                        <button onclick="alert('📥 گزارش در حال دانلود...')" style="
+                            flex:1;
+                            background:#48bb78;
+                            color:#fff;
+                            border:none;
+                            padding:10px;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-weight:600;
+                            cursor:pointer;
+                            font-family:'Vazir',sans-serif;
+                        ">
+                            <i class="fas fa-download"></i> دانلود گزارش
+                        </button>
+                        <button onclick="alert('📊 نتایج به داشبورد شما اضافه شد')" style="
+                            flex:1;
+                            background:#667eea;
+                            color:#fff;
+                            border:none;
+                            padding:10px;
+                            border-radius:12px;
+                            font-size:15px;
+                            font-weight:600;
+                            cursor:pointer;
+                            font-family:'Vazir',sans-serif;
+                        ">
+                            <i class="fas fa-chart-bar"></i> مشاهده در داشبورد
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            showModal('📊 نتایج تحلیل', resultContent);
+        }, 1500);
+    }
+
+    // ============================================================
+    // 🚀 بارگذاری اولیه
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderTools(toolsData);
+    });
+</script>

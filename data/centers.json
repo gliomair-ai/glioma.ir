@@ -1,0 +1,26 @@
+[
+  {
+    "name": "MD Anderson Cancer Center",
+    "country": "🇺🇸 USA",
+    "city": "Houston, Texas",
+    "specialties": ["Glioma", "Brain Tumors", "Precision Medicine"],
+    "website": "https://www.mdanderson.org",
+    "active_trials": 12
+  },
+  {
+    "name": "Memorial Sloan Kettering Cancer Center",
+    "country": "🇺🇸 USA",
+    "city": "New York",
+    "specialties": ["Neuro-oncology", "Immunotherapy", "Genomics"],
+    "website": "https://www.mskcc.org",
+    "active_trials": 8
+  },
+  {
+    "name": "Institut Gustave Roussy",
+    "country": "🇫🇷 France",
+    "city": "Paris",
+    "specialties": ["Brain Tumors", "Clinical Trials", "Precision Oncology"],
+    "website": "https://www.gustaveroussy.fr",
+    "active_trials": 6
+  }
+]
