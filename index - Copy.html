@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🧠 GliomaHub - پلتفرم جامع هوش مصنوعی گلیوما</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/png" href="assets/icons/brain.png" />
+
+    <style>
+        .section-container {
+            width: 100%;
+            min-height: 50px;
+        }
+
+            .section-container iframe {
+                width: 100%;
+                border: none;
+                display: block;
+                min-height: 100px;
+            }
+
+        /* ============================================ */
+        /* 📏 ارتفاع اختصاصی برای هر بخش                */
+        /* ============================================ */
+
+        #header-container iframe {
+            min-height: 80px;
+        }
+
+        #hero-container iframe {
+            min-height: 500px;
+        }
+
+        #ai-assistant-container iframe {
+            min-height: 350px;
+        }
+
+        #knowledge-base-container iframe {
+            min-height: 500px;
+        }
+
+        #contribution-container iframe {
+            min-height: 500px;
+        }
+
+        #cancer-centers-container iframe {
+            min-height: 800px; /* ✅ بزرگترین بخش */
+        }
+
+        #dashboard-container iframe {
+            min-height: 600px;
+        }
+
+        #research-tools-container iframe {
+            min-height: 400px;
+        }
+
+        #news-container iframe {
+            min-height: 450px;
+        }
+
+        #footer-container iframe {
+            min-height: 250px;
+        }
+
+        .loading-placeholder {
+            text-align: center;
+            padding: 30px;
+            color: #a0aec0;
+        }
+
+            .loading-placeholder i {
+                font-size: 28px;
+                display: block;
+                margin-bottom: 8px;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================ -->
+    <!-- 🧩 بخش‌های سایت (با iframe)                 -->
+    <!-- ============================================ -->
+
+    <div id="header-container" class="section-container">
+        <iframe src="sections/header.html" scrolling="no"></iframe>
+    </div>
+
+    <div id="hero-container" class="section-container">
+        <iframe src="sections/hero.html" scrolling="no"></iframe>
+    </div>
+
+    <div id="ai-assistant-container" class="section-container">
+        <iframe src="sections/ai-assistant.html" scrolling="no"></iframe>
+    </div>
+
+    <div id="knowledge-base-container" class="section-container">
+        <iframe src="sections/knowledge-base.html" scrolling="no"></iframe>
+    </div>
+
+    <div id="contribution-container" class="section-container">
+        <iframe src="sections/contribution.html" scrolling="no"></iframe>
+    </div>
+
+    <div id="cancer-centers-container" class="section-container">
+        <iframe src="sections/cancer-centers.html" scrolling="no"></iframe>
+    </div>
+
+    <div id="dashboard-container" class="section-container">
+        <iframe src="sections/dashboard.html" scrolling="no"></iframe>
+    </div>
+
+    <div id="research-tools-container" class="section-container">
+        <iframe src="sections/research-tools.html" scrolling="no"></iframe>
+    </div>
+
+    <div id="news-container" class="section-container">
+        <iframe src="sections/news.html" scrolling="no"></iframe>
+    </div>
+
+    <div id="footer-container" class="section-container">
+        <iframe src="sections/footer.html" scrolling="no"></iframe>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- 📦 اسکریپت‌ها                                -->
+    <!-- ============================================ -->
+
+    <script src="js/main.js"></script>
+
+    <script>
+        function autoResizeIframes() {
+            document.querySelectorAll('iframe').forEach(function (iframe) {
+                iframe.addEventListener('load', function () {
+                    try {
+                        const height = iframe.contentWindow.document.documentElement.scrollHeight;
+                        // فقط اگر ارتفاع محتوا بیشتر از min-height بود، تنظیم کن
+                        const minHeight = parseInt(getComputedStyle(iframe).minHeight) || 100;
+                        if (height > minHeight) {
+                            iframe.style.height = (height + 20) + 'px';
+                        }
+                        console.log('✅ iframe بارگذاری شد:', iframe.src);
+                    } catch (e) {
+                        console.warn('⚠️ خطا در تنظیم ارتفاع:', iframe.src);
+                    }
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            autoResizeIframes();
+            console.log('🧠 GliomaHub با روش iframe بارگذاری شد');
+        });
+    </script>
+</body>
+</html>
